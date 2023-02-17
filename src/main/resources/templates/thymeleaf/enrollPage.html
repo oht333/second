@@ -1,0 +1,33 @@
+<!--회원가입 페이지-->
+<!--signup.html-->
+<!DOCTYPE html>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<form method="post" action="/enroll" class="was-validated">
+    <div class="container">
+        <h1>회원가입</h1>
+        <div class="form-group">
+            <label for="memId">ID</label>
+            <input type="text" class="form-control" id="memId" name="memId" placeholder="사용자 아이디">
+        </div>
+        <div class="form-group">
+            <label for="memPwd">PASSWORD</label>
+            <input type="text" class="form-control" id="memPwd" name="memPwd" placeholder="사용자 이름">
+        </div>
+        <div class="form-group">
+            <label for="memName">NAME</label>
+            <input type="password" class="form-control" id="memName" name="memName" placeholder="사용자 비밀번호">
+        </div>
+        <button type="submit" class="btn btn-primary">가입 완료</button>
+        <!-- <button type="reset" class="btn btn-primary">
+        	<a href="javascript:history.back();" id="enroll_a">취소</a>
+        </button> -->
+    </div>
+</form>
+</body>
+</html>

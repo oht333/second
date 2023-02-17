@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oht.second.mapper.MemberMapper">
+
+	<resultMap id="MemberResultSet" type="Member">
+		<result column="memId" property="memId" />
+		<result column="memPwd" property="memPwd" />
+		<result column="memName" property="memName" />
+	</resultMap>
+	
+	<resultMap id="BoardResultSet" type="Board">	
+		<result column="boardNo" property="boardNo" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="regdate" property="regdate" />
+		<result column="memId" property="memId" />
+	</resultMap>
+	
+	<!-- 로그인 -->
+	<select id="loginMember" resultMap="MemberResultSet"
+		parameterType="member">
+		<![CDATA[
+			SELECT *
+			FROM
+			MEMBER
+			WHERE
+				memId = #{memId}
+			and
+				memPwd = #{memPwd}
+		]]>			
+
+	</select>	
+	</mapper>
