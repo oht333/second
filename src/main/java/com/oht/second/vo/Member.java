@@ -1,49 +1,55 @@
 package com.oht.second.vo;
 
-public class Member {
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Member implements UserDetails {
+	
 	private String memId;
 	private String memPwd;
 	private String memName;
+	private String authority;
 	
-	public Member(String memId, String memPwd, String memName) {
-		super();
-		this.memId = memId;
-		this.memPwd = memPwd;
-		this.memName = memName;
-	}
-	
-	public Member() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public String getMemId() {
-		return memId;
-	}
-
-	public void setMemId(String memId) {
-		this.memId = memId;
-	}
-
-	public String getMemPwd() {
-		return memPwd;
-	}
-
-	public void setMemPwd(String memPwd) {
-		this.memPwd = memPwd;
-	}
-
-	public String getMemName() {
-		return memName;
-	}
-
-	public void setMemName(String memName) {
-		this.memName = memName;
-	}
-
 	@Override
-	public String toString() {
-		return "Member [memId=" + memId + ", memPwd=" + memPwd + ", memName=" + memName + "]";
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Collections.singletonList(new SimpleGrantedAuthority(this.authority));
+	}
+	@Override
+	public String getPassword() {
+		return this.memPwd;
+	}
+	@Override
+	public String getUsername() {
+		return this.memId;
+	}
+	
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }
