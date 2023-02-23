@@ -18,7 +18,7 @@ public class BoardDAO {
 		return boardMapper.boardList();
 	}
 	
-/*	public Board detailBoard(Board board) {		
+	public Board detailBoard(Board board) {		
 		return boardMapper.detailBoard(board);
 	}
 	
@@ -30,10 +30,14 @@ public class BoardDAO {
 	public void deleteBoard(Board board) {
 		boardMapper.deleteBoard(board);
 	}
-	
-	public int editBoard(Board board) { 
+//	
+//	public int editBoard(Board board) { 
+//		return boardMapper.editBoard(board); 
+//	}
+
+	public int editBoard(Board board) {
 		return boardMapper.editBoard(board); 
 	}
-	*/
+	
 }
 

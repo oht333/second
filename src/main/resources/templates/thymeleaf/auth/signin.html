@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -16,7 +17,7 @@
   <h2>로그인</h2>
   <br>
   <p>아이디와 비밀번호를 입력해주세요</p>
-    <form action="/auth/signin" method="post" class="was-validated">
+    <form th:action="@{/login/signin}" method="post" class="was-validated">
     <div class="form-group">
       <label for="memId">ID:</label>
       <input type="text" class="form-control" id="memId" name="memId" placeholder="아이디를 입력해주세요" required>
@@ -27,8 +28,10 @@
       <input type="password" class="form-control" id="memPwd" name="memPwd" placeholder="비밀번호를 입력해주세요" required>
       <div class="valid-feedback"></div>
     </div>
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-success">로그인</button>
   </form>
+    	<button id="right_btn"  class="btn btn-success"><a href="/enroll/page">회원가입</a>
+    </button>
 </div>
 
 </body>

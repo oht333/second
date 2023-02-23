@@ -18,7 +18,7 @@
 	</resultMap>
 	
 	<!-- 로그인 -->
-	<select id="loginMember" resultMap="MemberResultSet"
+<!-- 	<select id="loginMember" resultMap="MemberResultSet"
 		parameterType="member">
 		<![CDATA[
 			SELECT *
@@ -30,5 +30,25 @@
 				memPwd = #{memPwd}
 		]]>			
 
-	</select>	
-	</mapper>
+	</select> -->
+
+	<select id="getMemberAccount" resultType="com.oht.second.vo.Member" parameterType="String">
+		select * from MEMBER where memId = #{memId}	
+	</select>
+
+
+	
+	<insert id="enrollProcess" parameterType="com.oht.second.vo.Member">
+		insert into MEMBER(
+						MEMID, MEMPWD, MEMNAME
+						)
+				values(
+						#{memId}, #{memPwd}, #{memName}
+					)
+					
+	
+	
+	</insert>
+	
+		
+</mapper>
