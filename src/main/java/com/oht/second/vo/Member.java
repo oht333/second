@@ -17,15 +17,13 @@ public class Member implements UserDetails{
 	private String memId;
 	private String memPwd;
 	private String memName;
-	private String authority;
 	private String role;
 	
-	public Member(String memId, String memPwd, String memName, String authority, String role) {
+	public Member(String memId, String memPwd, String memName, String role) {
 		super();
 		this.memId = memId;
 		this.memPwd = memPwd;
 		this.memName = memName;
-		this.authority = authority;
 		this.role = role;
 	}
 
@@ -53,14 +51,6 @@ public class Member implements UserDetails{
 		this.memName = memName;
 	}
 
-	public String getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
-
 	public String getRole() {
 		return role;
 	}
@@ -69,13 +59,12 @@ public class Member implements UserDetails{
 		this.role = role;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Member [memId=" + memId + ", memPwd=" + memPwd + ", memName=" + memName + ", authority=" + authority
-				+ ", role=" + role + "]";
+		return "Member [memId=" + memId + ", memPwd=" + memPwd + ", memName=" + memName + ", role=" + role + "]";
 	}
-	
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Collections.singletonList(new SimpleGrantedAuthority(this.role));
