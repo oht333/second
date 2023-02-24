@@ -13,6 +13,7 @@ public class BoardDAO {
 
 	@Autowired
 	private BoardMapper boardMapper;
+	public int selectTotalRecord;
 	
 	public ArrayList<Board> boardList() {
 		return boardMapper.boardList();

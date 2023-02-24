@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		
 		http
 				.authorizeRequests() // 이 주소경로로 요청이 들어오면
-				.antMatchers("/", "/login/**", "/board/**")
+				.antMatchers("/login/**")
 				.authenticated() // 인증이 필요하다.
 				.anyRequest() //그 외의 요청들은
 				.permitAll() // 모두 허용한다
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.loginProcessingUrl("/login/signin") // 'auth/signin' form action에서 login/signin POST요청을 실행시킨다.
 				.usernameParameter("memId")
 				.passwordParameter("memPwd")
-				.defaultSuccessUrl("/list") // 인증이 정상적으로 완료되면 /list로 이동한다
+				.defaultSuccessUrl("/auth/success") // 인증이 정상적으로 완료되면 /list로 이동한다
 				.failureUrl("/auth/fail") //실패하면 /auth/fail
 				.permitAll();			
 	} 
@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(new BCryptPasswordEncoder());
+    	auth.userDetailsService(memberService).passwordEncoder(new BCryptPasswordEncoder());
     }
 	  //AuthenticationManagerBuilder : 유저 인증정보를 설정 할 수 있다
 }

@@ -11,12 +11,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oht.second.vo.Member;
+import com.oht.second.vo.SearchVO;
 import com.oht.second.vo.Board;
-
+import com.oht.second.common.ConstUtil;
+import com.oht.second.common.PaginationInfo;
 import com.oht.second.model.BoardService;
 
 @Controller
@@ -33,15 +36,31 @@ public class BoardController {
 	
 	
 	@GetMapping("/board/list") //url주소 끝자리에 /list를 붙여서 이동
-	public ModelAndView boardList(ModelAndView mv) {
+	public ModelAndView boardList(@ModelAttribute SearchVO searchVo ,ModelAndView mv, Model model) {
 
 		System.out.println("들어옴");
 //		logger.info("글목록, 파라미터 board={}", board);
 		
+		// 1. PaginationInfo 객체 생성
+		PaginationInfo pagingInfo = new PaginationInfo();
+		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+		
+		// 2. searchVo에 값 셋팅
+		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+		
 		ArrayList<Board> list = boardService.boardList();
 		
+		// 3. totalRecord 구하기
+//			int totalRecord = boardService.selectTotalRecord(searchVo);
+//			pagingInfo.setTotalRecord(totalRecord);
+			
 		mv.addObject("list", list);  //받아온 list값을 list key에 설정. 나중에 html문서에서 출력하고 싶은게 있으면 ${list.title} 이렇게 기재하면 됨
+		mv.addObject("pagingInfo", pagingInfo);
 		mv.setViewName("boardList"); //boardList.html로 페이지를 셋팅
+		
 		return mv;
 	}	
 	

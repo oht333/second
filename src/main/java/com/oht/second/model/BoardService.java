@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.oht.second.model.BoardDAO;
 import com.oht.second.vo.Board;
+import com.oht.second.vo.SearchVO;
 
 @Service
 public class BoardService {
@@ -33,5 +34,10 @@ public class BoardService {
 
 	public int editBoard(Board board) {
 		return boardDao.editBoard(board); 
+	}
+	
+	int selectTotalRecord(SearchVO vo) {
+		return boardDao.selectTotalRecord;
+		
 	}
 }
