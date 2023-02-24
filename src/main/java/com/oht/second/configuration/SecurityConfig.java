@@ -49,36 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.and() //그리고
 				.formLogin() // 로그인(인증)이 필요한 요청이 들어오면
 				.loginPage("/auth/signin") // 로그인페이지 auth/signin 으로 이동시키고
-				.loginProcessingUrl("/login/signin") // auth/signin 이라는 POST요청을 실행시킨다.
+				.loginProcessingUrl("/login/signin") // 'auth/signin' form action에서 login/signin POST요청을 실행시킨다.
 				.usernameParameter("memId")
 				.passwordParameter("memPwd")
-//				.defaultSuccessUrl("/list") // 인증이 정상적으로 완료되면 /auth/success로 이동한다
-//				.failureUrl("/auth/fail")
-//				.permitAll()
-        		.successHandler(new AuthenticationSuccessHandler( ) {
-					@Override
-					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-							Authentication authentication) throws IOException, ServletException {
-						response.sendRedirect("/board/list");
-					}
-        		})
-        		.failureHandler(new AuthenticationFailureHandler() {
-					@Override
-					public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-							AuthenticationException exception) throws IOException, ServletException {
-						response.sendRedirect("/auth/fail");
-					}
-        		})
-        		.permitAll()				
-			.and()
-				.logout()
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/auth/signin")
-				.invalidateHttpSession(true) // 세션 clear
-			.and()
-				.exceptionHandling() // 에러 처리
-				.accessDeniedPage("/error");
-			
+				.defaultSuccessUrl("/list") // 인증이 정상적으로 완료되면 /list로 이동한다
+				.failureUrl("/auth/fail") //실패하면 /auth/fail
+				.permitAll();			
 	} 
 
 	  
@@ -93,5 +69,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(memberService).passwordEncoder(new BCryptPasswordEncoder());
     }
-	  
+	  //AuthenticationManagerBuilder : 유저 인증정보를 설정 할 수 있다
 }
