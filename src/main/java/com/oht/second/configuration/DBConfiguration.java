@@ -18,10 +18,9 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration // 환경설정 파일
 @PropertySource("classpath:/application.properties")
 public class DBConfiguration {
+	
 	@Autowired
 	private ApplicationContext applicationContext;
-	
-	
 	
 	@Bean // return 되는 객체를 IoC컨테이너에 등록
 	@ConfigurationProperties(prefix="spring.datasource.hikari")//classpath에 위치한 해당 접두어로 시작하는 내용 읽기
@@ -48,7 +47,6 @@ public class DBConfiguration {
 		factoryBean.setTypeAliasesPackage("com.oht.second.vo");
 		
 		return factoryBean.getObject();
-	
 	}
 	
 	@Bean

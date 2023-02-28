@@ -2,55 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oht.second.mapper.BoardMapper">
-
 	<resultMap id="BoardResultSet" type="Board">	
 		<result column="boardNo" property="boardNo" />
 		<result column="title" property="title" />
 		<result column="content" property="content" />
 		<result column="regdate" property="regdate" />
 		<result column="memId" property="memId" />
+		<result column="viewCount" property="viewCount" />
 	</resultMap>
 
- 	<insert id="writeBoard" parameterType="com.oht.second.vo.Board">
-		<![CDATA[
-			insert into board(
-				title
-				, content
-				, memId
-				) values (
-				#{title}
-				, #{content}
-				, #{memId});
-		
-		]]>	
-		
+<!-- 게시글 조회 -->
+	<select id="boardList" resultMap="BoardResultSet">
+			select *
+				from BOARD
+				order by boardNo desc
+	</select>
+	
+<!-- 게시글 작성 -->
+	<insert id="boardWrite" parameterType="board">
+			insert 
+				into BOARD(
+							title
+							, content
+							, memId
+							) 
+					values (
+							#{title}
+							, #{content}
+							, #{memId}
+							);		
 	</insert> 
 
-<!-- id는 지금까지 작성했던 메서드의 이름으로 기재를 한다. 그리고 parametertype은 vo로 설정 -->
-
-	<select id="boardList" resultMap="BoardResultSet"
-		parameterType="com.oht.second.vo.Board">
-		<![CDATA[
-			SELECT *
-			FROM
-			board
-		]]>
-	</select>
-	<!-- 여기에 있는 id명이 Mapper로 넘어가고 순서대로 DAO, Service, Controller로 넘어가는 것이다 -->
-
- 	<select id="detailBoard" resultMap="BoardResultSet"
-		parameterType="board">
-		<![CDATA[
-			select * from board
-				where boardNo = #{boardNo};
-		]]>
+<!-- 게시글 상세보기-->
+ 	<select id="detailBoard" resultMap="BoardResultSet" parameterType="int">
+			select * 
+				from BOARD
+				where BOARDNO = #{boardNo};
 	</select> 
 	
 	<select id="deleteBoard" parameterType="board">
-		<![CDATA[
-			delete from board
-			where boardNo = #{boardNo};
-		]]>	
+			delete 
+				from BOARD
+			where BOARDNO = #{boardNo};
 	</select>
 
 	<!-- 게시글 수정 -->
@@ -64,5 +57,12 @@
 				BOARDNO = #{boardNo};
 				
 	</update>	
+
+	<select id="selectTotalCount" resultType="int"> 	
+		select COUNT(*)
+			from BOARD;
+	</select>
+
+
 
 </mapper>

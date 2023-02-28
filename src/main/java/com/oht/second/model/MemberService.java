@@ -18,35 +18,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
+	
 	@Autowired
 	private MemberMapper memberMapper;
-	
-//	@Autowired
-//	private MemberDAO memberDao;
-	
-//	public Member loginMember(Member member) {
-//		return memberDao.loginMember(member);
-//	}
+
 
 	@Override
 	public UserDetails loadUserByUsername(String memId) throws UsernameNotFoundException {
 		//UserDetails : Spring Security에서 사용자의 정보를 담는 인터페이스
+		
 		Member member = memberMapper.getMemberAccount(memId);
 		
-		if(member == null) {
-			throw new UsernameNotFoundException("User " + memId + " not found");
-		}
+		System.out.println("로그인 정보" + member);
 		
 		return member;
 	}
 	
 	
 	@Transactional
-	public void enrollProcess(Member member) {
+	public int enrollProcess(Member member) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //비밀번호 암호화
 		member.setMemPwd(passwordEncoder.encode(member.getMemPwd()));
-		member.setRole("ROLE_USER");
+		member.setRole("ROLE_USER"); //회원권한 부여
 		
-		memberMapper.enrollProcess(member);
+		return memberMapper.enrollProcess(member);
 	}
+	
+	
+	
 }

@@ -38,7 +38,8 @@ public class MemberController {
 	
 	//회원가입 기능
 	@PostMapping("/auth/signup")
-	public String signup() {
+	public String signup(Member member) {
+		logger.info("파라미터 member={}",member);
 		System.out.println("signup 실행됨");
 		return "/auth/signin"; // 회원가입이 완료되면 로그인페이지 이동
 	}
