@@ -10,6 +10,6 @@ public interface MemberMapper {
 
 	public Member getMemberAccount(String memId);
 	
-	public void enrollProcess(Member member);
+	public int enrollProcess(Member member);
 }
 

@@ -41,15 +41,15 @@
             </tr>
             <tr>
                 <td class="b_title">작성자</td>
-                <td><input type="text" class="b_context" th:value="*{memId}"></td>
+                <td><input type="text" class="b_context" th:value="*{memId}" readonly></td>
             </tr>
             <tr>
                 <td class="b_title">작성일자</td>
-                <td><input type="text" class="b_context" th:value="*{regdate}"></td>
+                <td><input type="text" class="b_context" th:value="*{regdate}" readonly></td>
             </tr>
             <tr>
                 <td class="b_title">내 용</td>
-                <td><textarea class="b_context" name="" id="" cols="40" rows="20" th:text="*{content}"></textarea></td>
+                <td><textarea class="b_context" name="" id="" cols="40" rows="20" th:text="*{content}" readonly></textarea></td>
             </tr>
 
         </table>

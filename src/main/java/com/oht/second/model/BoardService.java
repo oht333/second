@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.oht.second.model.BoardDAO;
 import com.oht.second.vo.Board;
-import com.oht.second.vo.SearchVO;
+import com.oht.second.vo.PageInfo;
 
 @Service
 public class BoardService {
@@ -19,13 +19,20 @@ public class BoardService {
         return boardDao.boardList();
 	}
 	
+	public int selectTotalCount() {
+		return boardDao.selectTotalCount();
+	}
+	
 	public Board detailBoard(Board board) {
 		return boardDao.detailBoard(board);
 	}
+
+//	public Board detailBoard(int boardNo) {
+//		return boardDao.detailBoard(boardNo);
+//	}
 	
-	public int writeBoard(Board board) {
-		return boardDao.writeBoard(board);
-		
+	public int boardWrite(Board board) {
+		return boardDao.boardWrite(board);
 	}
 	
 	public void deleteBoard(Board board) {
@@ -36,8 +43,4 @@ public class BoardService {
 		return boardDao.editBoard(board); 
 	}
 	
-	int selectTotalRecord(SearchVO vo) {
-		return boardDao.selectTotalRecord;
-		
-	}
 }

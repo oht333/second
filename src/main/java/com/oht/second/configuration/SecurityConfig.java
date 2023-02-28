@@ -42,19 +42,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		
 		http
 				.authorizeRequests() // 이 주소경로로 요청이 들어오면
-				.antMatchers("/login/**")
-				.authenticated() // 인증이 필요하다.
-				.anyRequest() //그 외의 요청들은
-				.permitAll() // 모두 허용한다
-			.and() //그리고
+					.antMatchers("/login/**")
+					.authenticated() // 인증이 필요하다.
+					.anyRequest() //그 외의 요청들은
+					.permitAll() // 모두 허용한다
+		.and() //그리고
 				.formLogin() // 로그인(인증)이 필요한 요청이 들어오면
-				.loginPage("/auth/signin") // 로그인페이지 auth/signin 으로 이동시키고
-				.loginProcessingUrl("/login/signin") // 'auth/signin' form action에서 login/signin POST요청을 실행시킨다.
-				.usernameParameter("memId")
-				.passwordParameter("memPwd")
-				.defaultSuccessUrl("/auth/success") // 인증이 정상적으로 완료되면 /list로 이동한다
-				.failureUrl("/auth/fail") //실패하면 /auth/fail
-				.permitAll();			
+					.loginPage("/auth/signin") // 로그인페이지 auth/signin 으로 이동시키고
+					.loginProcessingUrl("/login/signin") // 'auth/signin' form action에서 login/signin POST요청을 실행시킨다.
+					.usernameParameter("memId")
+					.passwordParameter("memPwd")
+					.defaultSuccessUrl("/auth/success") // 인증이 정상적으로 완료되면 /list로 이동한다
+					.failureUrl("/auth/fail") //실패하면 /auth/fail
+					.permitAll();			
 	} 
 
 	  
