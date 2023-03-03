@@ -15,12 +15,8 @@ public class BoardService {
 	@Autowired
 	private BoardDAO boardDao;
 
-	public ArrayList<Board> boardList() {
-        return boardDao.boardList();
-	}
-	
-	public int selectTotalCount() {
-		return boardDao.selectTotalCount();
+	public ArrayList<Board> boardList(PageInfo paging) {
+        return boardDao.boardList(paging);
 	}
 	
 	public Board detailBoard(Board board) {
@@ -41,6 +37,10 @@ public class BoardService {
 
 	public int editBoard(Board board) {
 		return boardDao.editBoard(board); 
+	}
+
+	public int findAllCnt() {
+		return boardDao.findAllCnt();
 	}
 	
 }

@@ -14,14 +14,14 @@
 <!-- 게시글 조회 -->
 	<select id="boardList" resultMap="BoardResultSet">
 			select *
-				from BOARD
+				from board
 				order by boardNo desc
 	</select>
 	
 <!-- 게시글 작성 -->
 	<insert id="boardWrite" parameterType="board">
 			insert 
-				into BOARD(
+				into board(
 							title
 							, content
 							, memId
@@ -36,20 +36,20 @@
 <!-- 게시글 상세보기-->
  	<select id="detailBoard" resultMap="BoardResultSet" parameterType="int">
 			select * 
-				from BOARD
+				from board
 				where BOARDNO = #{boardNo};
 	</select> 
 	
 	<select id="deleteBoard" parameterType="board">
 			delete 
-				from BOARD
+				from board
 			where BOARDNO = #{boardNo};
 	</select>
 
 	<!-- 게시글 수정 -->
 	<update id="editBoard" parameterType="board">
 
-		update BOARD
+		update board
 			set
 				TITLE = #{title}
 				, CONTENT = #{content}
@@ -58,9 +58,9 @@
 				
 	</update>	
 
-	<select id="selectTotalCount" resultType="int"> 	
+	<select id="findAllCnt" resultType="int"> 	
 		select COUNT(*)
-			from BOARD;
+			from board;
 	</select>
 
 

@@ -68,20 +68,20 @@
 
 	 		var no = /*[[${detailBoard.boardNo}]]*/ {};
 			
+/*  		$(function(){
+			$("#left_btn").click(function(){
+				location.href = '/board/' + no;
+			})
+			
+		}) */
+
  		$(function(){
 			$("#left_btn").click(function(){
 				location.href = '/updateBoardPage?boardNo='+no;
 			})
 			
 		})
-
-/*  		$(function(){
-			$("#center_btn").click(function(){
-				location.href = '/delete';
-			})
-			
-		})
-		 */
+		
   		$(function(){
 			$("#center_btn").click(function(){
 				location.href = '/deleteBoard?boardNo='+no;

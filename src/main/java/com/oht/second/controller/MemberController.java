@@ -21,58 +21,48 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	//메인 페이지(로그인 페이지)
 	@RequestMapping("/")
 	public String home(){
-		return "auth/signin";// template> home.html 으로 보내줌
-	}
-	
-	@GetMapping("/auth/signin")
-	public String signinPage() {
 		return "auth/signin";
 	}
 	
+	//회원가입 페이지
 	@GetMapping("/auth/signup")
 	public String signupPage() {
 		return "auth/signup";
 	}
 	
-	//회원가입 기능
+	//회원가입 추가
 	@PostMapping("/auth/signup")
 	public String signup(Member member) {
 		logger.info("파라미터 member={}",member);
-		System.out.println("signup 실행됨");
-		return "/auth/signin"; // 회원가입이 완료되면 로그인페이지 이동
+		return "/auth/signin";
 	}
 	
-	@GetMapping("/auth/success")
-	public String loginSuccess() {
-		System.out.println("로그인 성공");
-		 return "/auth/success";
-	}
+	//로그인 성공 페이지
+//	@GetMapping("/auth/success")
+//	public String loginSuccess(Member member) {
+//		logger.info("파라미터 member={}",member);
+//		 return "/auth/success";
+//	}
 	
+	//로그인 실패 페이지
 	@GetMapping("/auth/fail")
 	public String loginfail(Member member) {
 		logger.info("파라미터 member={}",member);
-		System.out.println("로그인 실패");
 		 return "/auth/fail";
 	}
 	
+	//회원가입 페이지
 	@GetMapping("/enroll/page")
 	public ModelAndView enrollPageReturn(ModelAndView mv) {
 		mv.setViewName("/auth/signup");
 		
 		return mv;
 	}
-
-//	@PostMapping("/enroll/enroll")
-//	public ModelAndView enrollProcess(ModelAndView mv, Member member) {
-//		
-//		memberService.enrollProcess(member);
-//		mv.setViewName("/auth/signin");
-//		
-//		return mv;
-//	}
 	
+	//회원가입 처리
 	@PostMapping("/enroll/enroll")
 	public String enrollProcess(Model model, Member member) {
 		
@@ -81,7 +71,7 @@ public class MemberController {
 		memberService.enrollProcess(member);
 
 		model.addAttribute("message", "회원가입이 완료되었습니다");
-		model.addAttribute("searchUrl", "/auth/signin");
+		model.addAttribute("searchUrl", "/");
 		
 		return "message";
 	}

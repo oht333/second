@@ -13,9 +13,9 @@ public interface BoardMapper {
 
 //	public ArrayList<Board> boardList(RowBounds rowBounds);
 
-	public ArrayList<Board> boardList();
+	public ArrayList<Board> boardList(RowBounds rowBounds);
 	
-	public int selectTotalCount();
+//	public int selectTotalCount();
 	
 	public Board detailBoard(Board board);
 
@@ -26,4 +26,6 @@ public interface BoardMapper {
 	public void deleteBoard(Board baord);
 
 	public int editBoard(Board board);
+
+	public int findAllCnt();
 }
