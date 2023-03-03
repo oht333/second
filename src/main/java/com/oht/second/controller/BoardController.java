@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,35 +40,29 @@ public class BoardController {
 //	}	
 	
 	@GetMapping("/board/list") //url주소 끝자리에 /list를 붙여서 이동
-	public String boardList(@RequestParam(value="currentPage", defaultValue="1") int currentPage, Model model) {
+	public String boardList(Model model, @RequestParam(defaultValue = "1") int currentPage) {		
 
-		int selectCount = boardService.selectTotalCount();
+		int listCount = boardService.findAllCnt();
 		
-		PageInfo p = Pagination.getPageInfo(selectCount, currentPage, 10, 10);
-		
-		ArrayList<Board> list = boardService.boardList();
-		
+		PageInfo paging = Pagination.getPageInfo(currentPage, listCount);
+				
+		ArrayList<Board> list = boardService.boardList(paging);
+
 		model.addAttribute("list", list);
-		model.addAttribute("p", p);
+		model.addAttribute("paging", paging);
 		
 		return "boardList";
 	}	
 	
 	
-	
-	
-	
-//	@GetMapping("/board/{boardNo}")
-//	public ModelAndView detailBoard(@PathVariable("boardNo") int boardNo, ModelAndView mv) {
+//	@GetMapping("/board/detail/{boardNo}")
+//	public String detailBoard(@PathVariable("boardNo") int boardNo, Model model) {
 //
 //		Board detailBoard = boardService.detailBoard(boardNo);
 //		
-//		mv.addObject("detailBoard", detailBoard);
-//		mv.setViewName("board/detail");
+//		model.addAttribute("detailBoard", detailBoard);
 //		
-//		System.out.println(mv);
-//		
-//		return mv;	
+//		return "board/detail";	
 //	}	
 
 	@GetMapping("/board/detailBoard")
@@ -80,28 +74,16 @@ public class BoardController {
 		mv.setViewName("board/detail");
 		
 		return mv;	
-	}		
-	
+	}	
 	
 	@GetMapping("/board/write")	//w.html에서 '글쓰기'칸(writeBoard.html로 링크되어 있는것)을 <a href="/board/write">로 연결시킴
 	public String write() {
 		
 		return "writeBoard";
 	}
-	
-//	@PostMapping("/writeBoard") /*값을 받아올 html 파일 매핑*/
-//	public ModelAndView writeBoard(Board board, HttpSession session, ModelAndView mv, Member member) {
-//				
-//		board.setMemId(member.getMemId());
-//		
-//		int bd = boardService.writeBoard(board);
-//		
-//		mv.setViewName("redirect:/board/list");
-//		return mv;
-//	}
 
 	@PostMapping("/board/write")
-	public String boardWrite(Member member, Model model, Board board) {
+	public String boardWrite(@AuthenticationPrincipal Member member, Model model, Board board) {
 
 		board.setMemId(member.getMemId());
 
@@ -121,8 +103,7 @@ public class BoardController {
 		model.addAttribute("searchUrl", "/board/list");
 		
 		return "message";
-	}
-	
+	}	
 	
 	@GetMapping("/updateBoardPage") 
 	public ModelAndView updateBoardPage(Board board, ModelAndView mv) { 
@@ -133,8 +114,29 @@ public class BoardController {
 		return mv; 
 	}
 	
+//	@GetMapping("/board/{boardNo}") 
+//	public String updateBoardPage(@PathVariable("boardNo") int boardNo, Model model) { 
+//		
+//		Board detailBoard = boardService.detailBoard(boardNo);
+//
+//		model.addAttribute("detailBoard", detailBoard);
+//		 
+//		return "/boardEdit"; 
+//	}	
+	
+//	@GetMapping("/updateBoardPage") 
+//	public String updateBoardPage(Board board, Model model) { 
+//		Board detailBoard = boardService.detailBoard(board);
+//
+//		model.addAttribute("detailBoard", detailBoard);
+//		 
+//		return "/boardEdit"; 
+//	}
+	
+	
+	
 	@PostMapping("/editBoard") 
-	public String editBoard(Board board, ModelAndView mv, Model model) { 
+	public String editBoard(Board board, Model model) { 
 		  
 		int res = boardService.editBoard(board);
 		

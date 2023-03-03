@@ -18,24 +18,18 @@ public class BoardDAO {
 	@Autowired
 	private BoardMapper boardMapper;
 
-//	public ArrayList<Board> boardList(PageInfo paging) {
-//		
-//		int offset = (paging.getCurrentPage() - 1) * paging.getBoardLimit();
-//		int limit = paging.getBoardLimit();
-//		
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//
-//		
-//		return boardMapper.boardList(rowBounds);
-//	}
+	public ArrayList<Board> boardList(PageInfo paging) {
+		
+		int offset = (paging.getCurrentPage() - 1) * paging.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, paging.getBoardLimit());
+		
+		return boardMapper.boardList(rowBounds);
+	}
 
-	public ArrayList<Board> boardList() {	
-		return boardMapper.boardList();
-	}
-	
-	public int selectTotalCount() {
-		return boardMapper.selectTotalCount();
-	}
+//	public ArrayList<Board> boardList() {	
+//		return boardMapper.boardList();
+//	}
 	
 	public Board detailBoard(Board board) {		
 		return boardMapper.detailBoard(board);
@@ -55,6 +49,10 @@ public class BoardDAO {
 
 	public int editBoard(Board board) {
 		return boardMapper.editBoard(board); 
+	}
+
+	public int findAllCnt() {
+		return boardMapper.findAllCnt();
 	}
 
 }

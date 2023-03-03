@@ -66,6 +66,33 @@
           	onclick="location.href='write'">글쓰기</button>
 </div>
 
+
+	<div class="container">
+	    <ul class="pagination d-flex justify-content-center">
+	        <th:block th:if="${pi.listCount > 0}">
+	            <li class="page-item" th:classappend="${pi.currentPage eq 1} ? 'disabled' : ''">
+	                <a class="page-link" th:href="@{/board/list(currentPage=${pi.currentPage - 1})}" th:text="이전"></a>
+	            </li>
+	        </th:block>
+	
+	        <th:block th:if="${pi.listCount > 0}">
+	            <th:block th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+	                <li class="page-item">
+	                    <a class="page-link" th:href="@{/board/list(currentPage=${p})}" th:text="${p}"></a>
+	                </li>
+	            </th:block>
+	        </th:block>
+	
+	        <th:block th:if="${pi.listCount > 0}">
+	            <li class="page-item" th:classappend="${pi.currentPage eq pi.maxPage} ? 'disabled' : ' '">
+	                <a class="page-link" th:href="@{/board/list(currentPage=${pi.currentPage + 1})}" th:text="다음"></a>
+	            </li>
+	        </th:block>
+	    </ul>
+	</div>
+
+
+
 </body>
 </html>
 	

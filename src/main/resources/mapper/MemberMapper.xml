@@ -28,7 +28,7 @@
 	
 	<insert id="enrollProcess" parameterType="com.oht.second.vo.Member">
 		insert 
-			into MEMBER(
+			into member(
 						MEMID, MEMPWD, MEMNAME
 						)
 				values(
