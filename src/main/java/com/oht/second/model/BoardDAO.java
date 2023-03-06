@@ -20,24 +20,15 @@ public class BoardDAO {
 
 	public ArrayList<Board> boardList(PageInfo paging) {
 		
-		int offset = (paging.getCurrentPage() - 1) * paging.getBoardLimit();
-		
+		int offset = (paging.getCurrentPage() - 1) * paging.getBoardLimit();		
 		RowBounds rowBounds = new RowBounds(offset, paging.getBoardLimit());
 		
 		return boardMapper.boardList(rowBounds);
 	}
-
-//	public ArrayList<Board> boardList() {	
-//		return boardMapper.boardList();
-//	}
 	
-	public Board detailBoard(Board board) {		
-		return boardMapper.detailBoard(board);
+	public Board detailBoard(int boardNo) {		
+		return boardMapper.detailBoard(boardNo);
 	}
-	
-//	public Board detailBoard(int boardNo) {		
-//		return boardMapper.detailBoard(boardNo);
-//	}
 	
 	public int boardWrite(Board board) {
 		return boardMapper.boardWrite(board);

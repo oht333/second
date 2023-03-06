@@ -10,16 +10,10 @@ import com.oht.second.vo.PageInfo;
 
 @Mapper
 public interface BoardMapper {
-
-//	public ArrayList<Board> boardList(RowBounds rowBounds);
-
+	
 	public ArrayList<Board> boardList(RowBounds rowBounds);
 	
-//	public int selectTotalCount();
-	
-	public Board detailBoard(Board board);
-
-//	public Board detailBoard(int boardNo);
+	public Board detailBoard(int boardNo);
 	
 	public int boardWrite(Board board);
 	

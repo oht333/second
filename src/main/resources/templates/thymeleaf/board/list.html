@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Bootstrap Example</title>
+  <title>자유 게시판</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -9,89 +9,65 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
 
-<!-- 	<script>
-		$(function(){
-			$("#boardTable>tbody>tr").click(function(){
-				location.href = '/detailBoard?boardNo=' + $(this).children(".boardNo").text();
-				
-			})
-		})
-	
-	</script> -->
-	
-	
-	
-<br><br><br><br>
+<body>	
 <div class="container">
-  <h2 class="text-success">자유 게시판</h2>
-  <p></p>            
+  <h2 class="text-success">자유 게시판</h2>  
   <table class="table table-striped" id="boardTable">
     <thead>
-      <tr>
-        <th>NO</th>
-        <th>제목</th>
-<!--         <th>내용</th> -->
-        <th>작성자</th>
-        <th>작성날짜</th>
-      </tr>
+	    <tr>
+		    <th>NO</th>
+		    <th>제목</th>
+		    <th>작성자</th>
+		    <th>작성날짜</th>
+	    </tr>
     </thead>
-    <tbody>
-    
-<!--      	            <tr th:each="list : ${list}">
-		              <td th:text="${list.boardNo}" class="boardNo"></td>
-		              <td th:text="${list.title}"></td>
-		              <td class="text_ct"><a href="detailBoard?boardNo=${list.boardNo}">${list.boardNo}</a></td>
-		              <td th:text=${list.content}"></td>
-		              <td th:text="${list.regdate}"></td>
-		              <td th:text="${list.memId}"></td>
-	            </tr>  -->
-    
-    			
- 	            <tr th:each="list : ${list}">
-		              <td th:text="${list.boardNo}" class="boardNo"></td>
-		              <td><a th:text="${list.title}" th:href="@{detailBoard(boardNo=${list.boardNo})}"></a></td>
-		              <!-- <td th:text=${list.content}"></td> -->
-		              <td th:text="${list.regdate}"></td>
-		              <td th:text="${list.memId}"></td>
-	            </tr> 
-	     </c:forEach>
-    </tbody>
+	<tbody>	
+		<tr th:each="list : ${list}">
+			<td th:text="${list.boardNo}" class="boardNo"></td>
+			<td><a th:text="${list.title}" th:href="@{/board/detail/{boardNo}(boardNo = ${list.boardNo})}"></a></td>
+<!--  			<td><a th:text="${list.title}" th:href="@{detailBoard(boardNo=${list.boardNo})}"></a></td> -->
+			<td th:text="${list.regdate}"></td>
+			<td th:text="${list.memId}"></td>
+		</tr> 
+	</tbody>
   </table>
 </div>
 
-<div class="btn-group, text-center">
-  <button type="button" class="btn btn-success"
-          	onclick="location.href='write'">글쓰기</button>
-</div>
-
-
+   
+<!-- 페이징 처리 -->
 	<div class="container">
 	    <ul class="pagination d-flex justify-content-center">
-	        <th:block th:if="${pi.listCount > 0}">
-	            <li class="page-item" th:classappend="${pi.currentPage eq 1} ? 'disabled' : ''">
-	                <a class="page-link" th:href="@{/board/list(currentPage=${pi.currentPage - 1})}" th:text="이전"></a>
+	<!-- 이전 -->   
+	            <li class="page-item" th:classappend="${paging.currentPage eq 1} ? 'disabled' : ''">
+	                <a class="page-link" th:href="@{/board/list(currentPage=1)}" th:text="'<<'"></a>
 	            </li>
-	        </th:block>
-	
-	        <th:block th:if="${pi.listCount > 0}">
-	            <th:block th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-	                <li class="page-item">
-	                    <a class="page-link" th:href="@{/board/list(currentPage=${p})}" th:text="${p}"></a>
-	                </li>
-	            </th:block>
-	        </th:block>
-	
-	        <th:block th:if="${pi.listCount > 0}">
-	            <li class="page-item" th:classappend="${pi.currentPage eq pi.maxPage} ? 'disabled' : ' '">
-	                <a class="page-link" th:href="@{/board/list(currentPage=${pi.currentPage + 1})}" th:text="다음"></a>
+	            <li class="page-item" th:classappend="${paging.currentPage eq 1} ? 'disabled' : ''">
+	                <a class="page-link" th:href="@{/board/list(currentPage=${paging.currentPage - 1})}" th:text="'<'"></a>
 	            </li>
-	        </th:block>
+	<!-- 번호 --> 	
+			    <th:block  th:with="start = ${paging.startPage}, end = ${paging.endPage}">
+				    <li class="page-item" 
+				    		 th:with="start = ${paging.startPage}, end = ${paging.endPage}"
+				    		th:each="pageButton : ${#numbers.sequence(start, end)}">
+				    		<a class="page-link" th:href="@{/board/list?currentPage={currentPage} (currentPage = ${pageButton})}" th:text=${pageButton}></a>
+				    </li>
+			    </th:block>
+	<!-- 다음 --> 	
+	            <li class="page-item" th:classappend="${paging.currentPage eq paging.maxPage} ? 'disabled' : ' '">
+	                <a class="page-link" th:href="@{/board/list(currentPage=${paging.currentPage + 1})}" th:text="'>'"></a>
+	            </li>
+	            <li class="page-item" th:classappend="${paging.currentPage eq paging.maxPage} ? 'disabled' : ' '">
+	                <a class="page-link" th:href="@{/board/list(currentPage=${paging.maxPage})}" th:text="'>>'"></a>
+	            </li>
 	    </ul>
 	</div>
 
-
+    
+	<div class="btn-group, text-center">
+	  <button type="button" class="btn btn-success"
+	          	onclick="location.href='write'">글쓰기</button>
+	</div> 
 
 </body>
 </html>

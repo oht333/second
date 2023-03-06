@@ -40,12 +40,7 @@ public class MemberController {
 		return "/auth/signin";
 	}
 	
-	//로그인 성공 페이지
-//	@GetMapping("/auth/success")
-//	public String loginSuccess(Member member) {
-//		logger.info("파라미터 member={}",member);
-//		 return "/auth/success";
-//	}
+
 	
 	//로그인 실패 페이지
 	@GetMapping("/auth/fail")

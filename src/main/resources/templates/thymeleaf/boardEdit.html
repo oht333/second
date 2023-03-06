@@ -23,13 +23,13 @@
         .b_context{
             width: 950px;
         }
-
     </style>
+    
     <title>게시글 수정</title>
 </head>
 <body>
     <div class="container" id="b_container">
-        <form action="editBoard" method="post">
+        <form th:action="@{'/board/update'}" th:method="post">
             
             <div class="container">
                 <h2>게시글 수정하기</h2>

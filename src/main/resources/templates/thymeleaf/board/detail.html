@@ -60,8 +60,7 @@
 		        <button id="left_btn" class="btn btn-success">수정</button> |
 		        <button id="center_btn" class="btn btn-success">삭제</button> | 
 		    </th:block>
-		        <button id="right_btn" class="btn btn-success"
-		        	onclick="location.href='list'">목록</button>
+		        <button id="right_btn" class="btn btn-success">목록</button>
 		</div>
 
 		
@@ -69,17 +68,10 @@
 		
 
 	 		var no = /*[[${detailBoard.boardNo}]]*/ {};
-			
-/*  		$(function(){
-			$("#left_btn").click(function(){
-				location.href = '/board/' + no;
-			})
-			
-		}) */
 
  		$(function(){
 			$("#left_btn").click(function(){
-				location.href = '/updateBoardPage?boardNo='+no;
+				location.href = '/board/update/'+no;
 			})
 			
 		})
@@ -89,8 +81,14 @@
 				location.href = '/board/delete/'+no;
 			})
 			
-		})	 
-
+		})
+		
+  		$(function(){
+			$("#right_btn").click(function(){
+				location.href = '/board/list';
+			})
+			
+		})	
 	</script>
     
 </body>

@@ -17,7 +17,7 @@
   <h2>로그인</h2>
   <br>
   <p>아이디와 비밀번호를 입력해주세요</p>
-    <form th:action="@{/login/signin}" method="post" class="was-validated">
+  <form th:action="@{/login/signin}" method="post" class="was-validated">
     <div class="form-group">
       <label for="memId">ID:</label>
       <input type="text" class="form-control" id="memId" name="memId" placeholder="아이디를 입력해주세요" required>
@@ -30,9 +30,15 @@
     </div>
     <button type="submit" class="btn btn-success">로그인</button>
   </form>
-    	<button id="right_btn"  class="btn btn-success"><a href="/enroll/page">회원가입</a>
-    </button>
+    <button id="right_btn"  class="btn btn-success">회원가입</button>
 </div>
-
+<script th:inline="javascript">
+	$(function(){
+		$("#right_btn").click(function(){
+			location.href = '/enroll/page';
+		})
+		
+	})	
+</script>
 </body>
 </html>

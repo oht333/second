@@ -14,5 +14,5 @@ public class Board {
 	private String title;
 	private String content;
 	private Date regdate;
-	private String memId;	
+	private String memId;
 }

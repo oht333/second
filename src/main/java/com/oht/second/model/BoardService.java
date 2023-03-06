@@ -19,13 +19,9 @@ public class BoardService {
         return boardDao.boardList(paging);
 	}
 	
-	public Board detailBoard(Board board) {
-		return boardDao.detailBoard(board);
+	public Board detailBoard(int boardNo) {
+		return boardDao.detailBoard(boardNo);
 	}
-
-//	public Board detailBoard(int boardNo) {
-//		return boardDao.detailBoard(boardNo);
-//	}
 	
 	public int boardWrite(Board board) {
 		return boardDao.boardWrite(board);
