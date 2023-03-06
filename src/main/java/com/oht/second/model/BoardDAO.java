@@ -43,8 +43,8 @@ public class BoardDAO {
 		return boardMapper.boardWrite(board);
 	}
 	
-	public void deleteBoard(Board board) {
-		boardMapper.deleteBoard(board);
+	public void deleteBoard(int boardNo) {
+		boardMapper.deleteBoard(boardNo);
 	}
 
 	public int editBoard(Board board) {

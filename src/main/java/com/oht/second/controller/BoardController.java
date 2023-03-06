@@ -95,15 +95,26 @@ public class BoardController {
 		return "message";
 	}
 	
-	@GetMapping("/deleteBoard") 
-	public String deleteBoard(Board board, Model model) { 
-		boardService.deleteBoard(board); 
+//	@GetMapping("board/delete") 
+//	public String deleteBoard(Board board, Model model) { 
+//		boardService.deleteBoard(board); 
+//
+//		model.addAttribute("message", "글 삭제가 완료되었습니다.");
+//		model.addAttribute("searchUrl", "/board/list");
+//		
+//		return "message";
+//	}	
+	
+	
+	@GetMapping("board/delete/{boardNo}") 
+	public String deleteBoard(@PathVariable("boardNo") int boardNo, Model model) { 
+		boardService.deleteBoard(boardNo); 
 
 		model.addAttribute("message", "글 삭제가 완료되었습니다.");
 		model.addAttribute("searchUrl", "/board/list");
 		
 		return "message";
-	}	
+	}		
 	
 	@GetMapping("/updateBoardPage") 
 	public ModelAndView updateBoardPage(Board board, ModelAndView mv) { 

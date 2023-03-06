@@ -56,10 +56,12 @@
             
     </div>
         <div class="btn-group, text-center">
-          <button id="left_btn" class="btn btn-success">수정</button> |
-          <button id="center_btn" class="btn btn-success">삭제</button> | 
-          <button id="right_btn" class="btn btn-success"
-          	onclick="location.href='list'">목록</button>
+        	<th:block th:if="${#authentication.name.equals(detailBoard.memId)}">
+		        <button id="left_btn" class="btn btn-success">수정</button> |
+		        <button id="center_btn" class="btn btn-success">삭제</button> | 
+		    </th:block>
+		        <button id="right_btn" class="btn btn-success"
+		        	onclick="location.href='list'">목록</button>
 		</div>
 
 		
@@ -84,7 +86,7 @@
 		
   		$(function(){
 			$("#center_btn").click(function(){
-				location.href = '/deleteBoard?boardNo='+no;
+				location.href = '/board/delete/'+no;
 			})
 			
 		})	 

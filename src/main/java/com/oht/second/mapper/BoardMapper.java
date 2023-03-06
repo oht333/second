@@ -23,7 +23,7 @@ public interface BoardMapper {
 	
 	public int boardWrite(Board board);
 	
-	public void deleteBoard(Board baord);
+	public void deleteBoard(int boardNo);
 
 	public int editBoard(Board board);
 

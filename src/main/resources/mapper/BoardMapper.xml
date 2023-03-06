@@ -40,7 +40,7 @@
 				where BOARDNO = #{boardNo};
 	</select> 
 	
-	<select id="deleteBoard" parameterType="board">
+	<select id="deleteBoard" parameterType="int">
 			delete 
 				from board
 			where BOARDNO = #{boardNo};
