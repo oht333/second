@@ -7,8 +7,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oht.second.mapper.BoardMapper;
+import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
 import com.oht.second.vo.PageInfo;
 
@@ -44,6 +46,11 @@ public class BoardDAO {
 
 	public int findAllCnt() {
 		return boardMapper.findAllCnt();
+	}
+
+	@Transactional
+	public int insertAttach(Attach attach) {
+		return boardMapper.insertAttach(attach);
 	}
 
 }

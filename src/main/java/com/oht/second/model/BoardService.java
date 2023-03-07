@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.oht.second.mapper.BoardMapper;
 import com.oht.second.model.BoardDAO;
+import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
 import com.oht.second.vo.PageInfo;
 
@@ -37,6 +40,12 @@ public class BoardService {
 
 	public int findAllCnt() {
 		return boardDao.findAllCnt();
+	}
+
+	@Transactional
+	public int insertAttach(Attach attach) {
+		
+		return boardDao.insertAttach(attach);
 	}
 	
 }

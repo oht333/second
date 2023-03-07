@@ -29,20 +29,26 @@
 </head>
 <body>
     <div class="container" id="b_container">
-        <form action="/board/write" method="post">
+        <form action="/board/write" method="post" enctype="multipart/form-data">
             
             <div class="container">
                 <h1>게시글 작성</h1>
                 <br>
                 <table class="table">
                     <tr>
-                      <td class="b_title">제  목</td>
-                      <td><input type="text" class="b_context" name="title"></td>
+                      	<td class="b_title">제  목</td>
+                      	<td><input type="text" class="b_context" name="title"></td>
                     </tr>
                     <tr>
-                      <td class="b_title" >내  용</td>
-                      <td><textarea class="b_context" name="content" id="content" cols="30" rows="10"></textarea></td>
+                      	<td class="b_title" >내  용</td>
+                      	<td><textarea class="b_context" name="content" id="content" cols="30" rows="10"></textarea></td>
                     </tr>
+ 	                <tr>
+				    	<td class="b_title">파 일 첨 부</td>
+				        <td>
+				        	<input type="file" id="write_file_input" name="file"><button type="button" id="write_file_cancle_button">X</button>
+				        </td>
+		    		</tr>                   
                 </table>
                     
             </div>

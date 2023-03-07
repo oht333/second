@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
 import com.oht.second.vo.PageInfo;
 
@@ -22,4 +23,7 @@ public interface BoardMapper {
 	public int editBoard(Board board);
 
 	public int findAllCnt();
+
+	public int insertAttach(Attach attach);
+	
 }

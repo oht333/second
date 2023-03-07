@@ -1,22 +1,28 @@
 package com.oht.second.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oht.second.vo.Member;
 import com.oht.second.vo.PageInfo;
 import com.oht.second.vo.Pagination;
+import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
 import com.oht.second.model.BoardService;
 
@@ -60,12 +66,23 @@ public class BoardController {
 		return "board/write";
 	}
 
+	
+	//파일첨부 진행중
+	
+	@Transactional
 	@PostMapping("/board/write")
-	public String boardWrite(@AuthenticationPrincipal Member member, Model model, Board board) {
+	public String boardWrite(@AuthenticationPrincipal Member member, 
+								@RequestParam(value="file") MultipartFile file, 
+								Model model, Board board) throws IOException {
 
 		board.setMemId(member.getMemId());
 
 		int result = boardService.boardWrite(board);
+		
+		Attach attach = storeFile(file, board);
+		
+		int attachResult = boardService.insertAttach(attach);
+		
 		
 		model.addAttribute("message", "글 작성이 완료되었습니다.");
 		model.addAttribute("searchUrl", "/board/list");
@@ -103,4 +120,42 @@ public class BoardController {
 		
 		return "message";
 	}	
+	
+	
+	public Attach storeFile(MultipartFile multipartFile, Board board) throws IOException {
+		if(multipartFile.isEmpty()) {
+		
+			return null;
+		}
+		
+		Attach attach = new Attach();
+		
+		String realFolder = "c:/study/upload/";
+		
+		String originalName = multipartFile.getOriginalFilename();
+		// 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
+		// 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로
+		
+		String extension = StringUtils.getFilenameExtension(originalName);
+		
+		String genId = UUID.randomUUID().toString();
+		
+		String saveFilename = genId + "." + extension;
+		
+		attach.setOriginalName(originalName);
+		attach.setSaveName(saveFilename);
+//		attach.setStatus("Y");
+		attach.setBoardNo(board.getBoardNo());
+		attach.setMemId(board.getMemId());
+		
+		String savePath = realFolder + saveFilename;
+
+		attach.setPath(savePath.toString());
+		
+		multipartFile.transferTo(new File(realFolder + "/" + genId));
+
+		
+		return attach;
+	}
+	
 }
