@@ -26,4 +26,6 @@ public interface BoardMapper {
 
 	public int insertAttach(Attach attach);
 	
+	public int selectLastInsertId();
+	
 }

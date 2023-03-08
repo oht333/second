@@ -15,4 +15,5 @@ public class Board {
 	private String content;
 	private Date regdate;
 	private String memId;
+	private String attach;
 }

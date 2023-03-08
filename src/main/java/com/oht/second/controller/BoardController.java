@@ -2,7 +2,11 @@ package com.oht.second.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -22,18 +26,24 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oht.second.vo.Member;
 import com.oht.second.vo.PageInfo;
 import com.oht.second.vo.Pagination;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
+import com.oht.second.mapper.BoardMapper;
 import com.oht.second.model.BoardService;
 
+
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 
-	@Autowired
-	private BoardService boardService;
-	
+	private final BoardService boardService;
+	private final BoardMapper boardMapper;
 	
 	@GetMapping("/board/list") 
 	public String boardList(Model model, @RequestParam(defaultValue = "1") int currentPage) {		
@@ -77,12 +87,21 @@ public class BoardController {
 
 		board.setMemId(member.getMemId());
 
-		int result = boardService.boardWrite(board);
+		int result = 0;
 		
+		if(!file.isEmpty()) {
+			
+		result = boardService.boardWrite(board);
+		
+		int boardNo = boardMapper.selectLastInsertId();
+		board.setBoardNo(boardNo);
 		Attach attach = storeFile(file, board);
 		
 		int attachResult = boardService.insertAttach(attach);
 		
+		} else {
+			result = boardService.boardWrite(board);			
+		}
 		
 		model.addAttribute("message", "글 작성이 완료되었습니다.");
 		model.addAttribute("searchUrl", "/board/list");
@@ -136,24 +155,20 @@ public class BoardController {
 		// 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
 		// 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로
 		
-		String extension = StringUtils.getFilenameExtension(originalName);
+		String extension = originalName.substring(originalName.lastIndexOf(".")+1); //확장자만 출력(.png)
 		
-		String genId = UUID.randomUUID().toString();
+		String saveName = originalName + "." + extension;
 		
-		String saveFilename = genId + "." + extension;
+//		String saveFilename = genId + "." + extension;
 		
 		attach.setOriginalName(originalName);
-		attach.setSaveName(saveFilename);
-//		attach.setStatus("Y");
+		attach.setSaveName(saveName);
 		attach.setBoardNo(board.getBoardNo());
-		attach.setMemId(board.getMemId());
 		
-		String savePath = realFolder + saveFilename;
-
-		attach.setPath(savePath.toString());
+//		String savePath = realFolder + originalName;
 		
-		multipartFile.transferTo(new File(realFolder + "/" + genId));
-
+		multipartFile.transferTo(new File(realFolder + "/" + saveName));
+	
 		
 		return attach;
 	}

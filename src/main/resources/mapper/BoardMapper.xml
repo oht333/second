@@ -63,22 +63,22 @@
 			from board;
 	</select>
 
-		<insert id="insertAttach">
+	<select id="selectLastInsertId" resultType="int">
+		select LAST_INSERT_ID();
+	</select>
+	
+	<insert id="insertAttach">
 		insert into attach(
 							ORIGINALNAME
 							, SAVENAME
 							, PATH
-							, STATUS
 							, BOARDNO
-							, MEMID
 							)
 					values(
 							#{originalName}
 							, #{saveName}
 							, #{path}
-							, #{status}
 							, #{boardNo}
-							, #{memId}
 							);	
 	</insert>
 
