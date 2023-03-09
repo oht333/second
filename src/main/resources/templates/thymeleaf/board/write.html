@@ -44,9 +44,9 @@
                       	<td><textarea class="b_context" name="content" id="content" cols="30" rows="10"></textarea></td>
                     </tr>
  	                <tr>
-				    	<td class="b_title">파 일 첨 부</td>
+				    	<td class="b_title">파일첨부</td>
 				        <td>
-				        	<input type="file" id="write_file_input" name="file"><button type="button" id="write_file_cancle_button">X</button>
+				        	<input type="file" id="file_add" name="file" ><button type="button" id="file_add_cancel">취소</button>
 				        </td>
 		    		</tr>                   
                 </table>
@@ -66,6 +66,10 @@
 
 
     </div>
-            
+ <script>
+	 $("#file_add_cancel").on("click", function(){
+	 	$("#file_add").val("");
+	 });
+ </script>           
 </body>
 </html>

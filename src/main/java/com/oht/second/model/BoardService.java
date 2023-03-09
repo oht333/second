@@ -47,5 +47,13 @@ public class BoardService {
 		
 		return boardDao.insertAttach(attach);
 	}
+
+	public Attach detailAttach(int boardNo) {
+		return boardDao.detailAttach(boardNo);
+	}
+
+	public Attach selectAttach(int fileNo) {
+		return boardDao.selectAttach(fileNo);
+	}
 	
 }

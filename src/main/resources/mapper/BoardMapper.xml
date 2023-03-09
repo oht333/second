@@ -11,6 +11,14 @@
 		<result column="viewCount" property="viewCount" />
 	</resultMap>
 
+	<resultMap id="AttachResultSet" type="com.oht.second.vo.Attach">
+		<result column="fileNo" property="fileNo"/>
+		<result column="originalName" property="originalName"/>
+		<result column="saveName" property="saveName"/>
+		<result column="path" property="path"/>
+		<result column="boardNo" property="boardNo"/>
+	</resultMap>
+	
 <!-- 게시글 조회 -->
 	<select id="boardList" resultMap="BoardResultSet">
 			select *
@@ -81,5 +89,17 @@
 							, #{boardNo}
 							);	
 	</insert>
+	
+	<select id="detailAttach" resultMap="AttachResultSet">
+		select *
+			from attach
+			where BOARDNO = #{boardNo};
+	</select>
+
+	<select id="selectAttach" parameterType="int" resultMap="AttachResultSet">
+		select * 
+			from attach 
+			where fileNo = #{fileNo}		
+	</select>
 
 </mapper>

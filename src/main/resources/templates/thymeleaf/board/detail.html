@@ -52,8 +52,10 @@
                 <td><textarea class="b_context" name="" id="" cols="40" rows="20" th:text="*{content}" readonly></textarea></td>
             </tr>
 		    <tr>
-		        <td class="b_title">첨부파일</td>
- 		        <td><input type="text" class="b_context" th:value="${attach.originalName}" readonly></td>		        
+				<td class="b_title">첨부파일</td>
+ 		        <td id="attach-td">
+					<input type="text" id="attach-fileNo" th:value="${attach.originalName}">
+		        </td>		        
 		    </tr>
         </table>
             
@@ -70,7 +72,7 @@
 			<script th:inline="javascript">		
 		
 
-	 		var no = /*[[${detailBoard.boardNo}]]*/ {};
+	 		var no = /*[[${detailBoard.boardNo}]]*/ ;
 
  		$(function(){
 			$("#left_btn").click(function(){
@@ -91,7 +93,14 @@
 				location.href = '/board/list';
 			})
 			
-		})	
+		})
+		
+		$(function(){
+			$("#attach-td").click(function(){
+				console.log("작동확인");
+ 				location.href = '/attach/download/' +  $(this).children("#attach-fileNo").val(); 
+			})
+		})
 	</script>
     
 </body>

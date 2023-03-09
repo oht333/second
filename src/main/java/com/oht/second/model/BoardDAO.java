@@ -53,5 +53,13 @@ public class BoardDAO {
 		return boardMapper.insertAttach(attach);
 	}
 
+	public Attach detailAttach(int boardNo) {
+		return boardMapper.detailAttach(boardNo);
+	}
+
+	public Attach selectAttach(int fileNo) {
+		return boardMapper.selectAttach(fileNo);
+	}
+
 }
 

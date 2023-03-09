@@ -2,21 +2,23 @@ package com.oht.second.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,6 @@ import com.oht.second.vo.PageInfo;
 import com.oht.second.vo.Pagination;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import com.oht.second.vo.Attach;
 import com.oht.second.vo.Board;
@@ -64,8 +65,12 @@ public class BoardController {
 	public String detailBoard(@PathVariable("boardNo") int boardNo, Model model) {
 
 		Board detailBoard = boardService.detailBoard(boardNo);
+		Attach attach = new Attach();
+		
+		attach = boardService.detailAttach(boardNo);
 		
 		model.addAttribute("detailBoard", detailBoard);
+		model.addAttribute("attach", attach);
 		
 		return "board/detail";	
 	}	
@@ -171,6 +176,27 @@ public class BoardController {
 	
 		
 		return attach;
+	}
+	
+	@GetMapping("/attach/download/{fileNo}")
+	public ResponseEntity<Object> downloadAttach(@PathVariable("fileNo") int fileNo){
+		Attach attach = boardService.selectAttach(fileNo);
+		
+		String path = "c:/study/upload/" + attach.getSaveName();
+		
+		try {
+			Path filePath = Paths.get(path);
+			Resource resource = new InputStreamResource(Files.newInputStream(filePath));	//InputStream을 통해서 resource를 불러온다
+			
+			File file = new File(path);
+			
+			HttpHeaders headers = new HttpHeaders();	//Header라는 부분을 통해 전송을 한다
+			headers.setContentDisposition(ContentDisposition.builder("attach").filename(file.getName()).build());
+			
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);	//값을 돌려보낼때 쓰는것    httpstatus가 성공적으로 반환이 되었다    OK가 되면 값을 200으로 돌려준다
+		} catch(Exception e) {
+			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+		}
 	}
 	
 }
