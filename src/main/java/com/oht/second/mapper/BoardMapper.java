@@ -12,7 +12,7 @@ import com.oht.second.vo.PageInfo;
 @Mapper
 public interface BoardMapper {
 	
-	public ArrayList<Board> boardList(RowBounds rowBounds);
+	public ArrayList<Board> boardList(RowBounds rowBounds, String category, String keyword);
 	
 	public Board detailBoard(int boardNo);
 	
@@ -22,7 +22,7 @@ public interface BoardMapper {
 
 	public int editBoard(Board board);
 
-	public int findAllCnt();
+	public int findAllCnt(String category, String keyword);
 
 	public int insertAttach(Attach attach);
 	

@@ -20,12 +20,12 @@ public class BoardDAO {
 	@Autowired
 	private BoardMapper boardMapper;
 
-	public ArrayList<Board> boardList(PageInfo paging) {
+	public ArrayList<Board> boardList(PageInfo paging, String category, String keyword) {
 		
 		int offset = (paging.getCurrentPage() - 1) * paging.getBoardLimit();		
-		RowBounds rowBounds = new RowBounds(offset, paging.getBoardLimit());
-		
-		return boardMapper.boardList(rowBounds);
+		RowBounds rowBounds = new RowBounds(offset, paging.getBoardLimit()); //offset , 한 페이지에 보여질 게시글 최대 수
+		// offset + limit 의 건수를 가져와서 앞의 offset건 만큼 건너뜀
+		return boardMapper.boardList(rowBounds, category, keyword);
 	}
 	
 	public Board detailBoard(int boardNo) {		
@@ -44,8 +44,8 @@ public class BoardDAO {
 		return boardMapper.editBoard(board); 
 	}
 
-	public int findAllCnt() {
-		return boardMapper.findAllCnt();
+	public int findAllCnt(String category, String keyword) {
+		return boardMapper.findAllCnt(category, keyword);
 	}
 
 	@Transactional

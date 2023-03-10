@@ -54,7 +54,7 @@
 		    <tr>
 				<td class="b_title">첨부파일</td>
  		        <td id="attach-td">
-					<input type="text" id="attach-fileNo" th:value="${attach.originalName}">
+					<input type="text" id="attach-fileNo" th:value="${attach.fileNo}">
 		        </td>		        
 		    </tr>
         </table>
@@ -97,7 +97,7 @@
 		
 		$(function(){
 			$("#attach-td").click(function(){
-				console.log("작동확인");
+				console.log("작동");
  				location.href = '/attach/download/' +  $(this).children("#attach-fileNo").val(); 
 			})
 		})

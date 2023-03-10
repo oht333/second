@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -47,14 +51,21 @@ public class BoardController {
 	private final BoardMapper boardMapper;
 	
 	@GetMapping("/board/list") 
-	public String boardList(Model model, @RequestParam(defaultValue = "1") int currentPage) {		
+	public String boardList(Model model, @RequestParam(defaultValue = "1") int currentPage,
+							String category, String keyword) {		
 
-		int listCount = boardService.findAllCnt();
+		int listCount = boardService.findAllCnt(category, keyword);
 		
 		PageInfo paging = Pagination.getPageInfo(currentPage, listCount);
+		//getPageInfo = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit);
 				
-		ArrayList<Board> list = boardService.boardList(paging);
+		ArrayList<Board> list = boardService.boardList(paging, category, keyword);
 
+	    if(category!=null && !category.equals("") && keyword!=null) {
+	    	model.addAttribute("category", category);
+	    	model.addAttribute("keyword", keyword);
+	    }
+		
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		
@@ -64,9 +75,10 @@ public class BoardController {
 	@GetMapping("/board/detail/{boardNo}")
 	public String detailBoard(@PathVariable("boardNo") int boardNo, Model model) {
 
+		//상세보기
 		Board detailBoard = boardService.detailBoard(boardNo);
+		//파일 첨부 
 		Attach attach = new Attach();
-		
 		attach = boardService.detailAttach(boardNo);
 		
 		model.addAttribute("detailBoard", detailBoard);
@@ -186,14 +198,17 @@ public class BoardController {
 		
 		try {
 			Path filePath = Paths.get(path);
-			Resource resource = new InputStreamResource(Files.newInputStream(filePath));	//InputStream을 통해서 resource를 불러온다
-			
+			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+//			Resource resource = new UrlResource(file.toUri());
+
 			File file = new File(path);
 			
 			HttpHeaders headers = new HttpHeaders();	//Header라는 부분을 통해 전송을 한다
+
+			
 			headers.setContentDisposition(ContentDisposition.builder("attach").filename(file.getName()).build());
 			
-			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);	//값을 돌려보낼때 쓰는것    httpstatus가 성공적으로 반환이 되었다    OK가 되면 값을 200으로 돌려준다
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);	//값을 돌려보낼때 쓰는것    httpstatus가 성공적으로
 		} catch(Exception e) {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}

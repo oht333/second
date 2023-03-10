@@ -23,6 +23,12 @@
 	<select id="boardList" resultMap="BoardResultSet">
 			select *
 				from board
+				<if test="category == 'title'">
+			    	where TITLE like '%${keyword}%'
+				</if>
+				<if test="category == 'memId'">
+			    	where MEMID = #{keyword}
+				</if>				
 				order by boardNo desc
 	</select>
 	
@@ -69,6 +75,12 @@
 	<select id="findAllCnt" resultType="int"> 	
 		select COUNT(*)
 			from board;
+		<if test="category == 'boardTitle'">
+	    	where BOARDTITLE like '%${keyword}%'
+		</if>
+		<if test="category == 'userId'">
+	    	where USERID = #{keyword}
+		</if>			
 	</select>
 
 	<select id="selectLastInsertId" resultType="int">

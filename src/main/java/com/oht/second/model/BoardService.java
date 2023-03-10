@@ -18,8 +18,8 @@ public class BoardService {
 	@Autowired
 	private BoardDAO boardDao;
 
-	public ArrayList<Board> boardList(PageInfo paging) {
-        return boardDao.boardList(paging);
+	public ArrayList<Board> boardList(PageInfo paging, String category, String keyword) {
+        return boardDao.boardList(paging, category, keyword);
 	}
 	
 	public Board detailBoard(int boardNo) {
@@ -38,8 +38,8 @@ public class BoardService {
 		return boardDao.editBoard(board); 
 	}
 
-	public int findAllCnt() {
-		return boardDao.findAllCnt();
+	public int findAllCnt(String category, String keyword) {
+		return boardDao.findAllCnt(category, keyword);
 	}
 
 	@Transactional
