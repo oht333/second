@@ -29,8 +29,6 @@ public class MemberService implements UserDetailsService {
 		
 		Member member = memberMapper.getMemberAccount(memId);
 		
-		System.out.println("로그인 정보" + member);
-		
 		return member;
 	}
 	

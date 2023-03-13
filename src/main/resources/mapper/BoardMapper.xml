@@ -39,11 +39,17 @@
 							title
 							, content
 							, memId
+						<if test="attach != null">
+							, attach
+						</if>	
 							) 
 					values (
 							#{title}
 							, #{content}
 							, #{memId}
+						<if test="attach != null">
+							, attach
+						</if>							
 							);		
 	</insert> 
 

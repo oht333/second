@@ -17,4 +17,5 @@ public class Attach {
 	private String saveName;
 	private String path;
 	private int boardNo;
+	private String attach;
 }

@@ -16,4 +16,5 @@ public class Board {
 	private Date regdate;
 	private String memId;
 	private String attach;
+	private int viewCount;
 }

@@ -58,14 +58,23 @@
 	            <li class="page-item" th:classappend="${paging.currentPage eq 1} ? 'disabled' : ''">
 	                <a class="page-link" th:href="@{/board/list(currentPage=${paging.currentPage - 1}, category=${category}, keyword=${keyword})}" th:text="'<'"></a>
 	            </li>
+	            
+	            
 	<!-- 번호 --> 	
-			    <th:block  th:with="start = ${paging.startPage}, end = ${paging.endPage}">
+<!-- 			    <th:block  th:with="start = ${paging.startPage}, end = ${paging.endPage}">
 				    <li class="page-item" 
 				    		 th:with="start = ${paging.startPage}, end = ${paging.endPage}"
 				    		th:each="pageButton : ${#numbers.sequence(start, end)}">
 				    		<a class="page-link" th:href="@{/board/list?currentPage={currentPage} (currentPage = ${pageButton})}" th:text=${pageButton}></a>
 				    </li>
-			    </th:block>
+			    </th:block> -->
+
+	            <th:block th:each="page : ${#numbers.sequence(paging.startPage, paging.endPage)}">
+	                <li class="page-item">
+	                    <a class="page-link" th:href="@{/board/list(currentPage=${page}, category=${category}, keyword=${keyword})}" th:text="${page}"></a>
+	                </li>
+	            </th:block>
+		    
 		    
 	<!-- 다음 --> 	
 	            <li class="page-item" th:classappend="${paging.currentPage eq paging.maxPage} ? 'disabled' : ' '">
