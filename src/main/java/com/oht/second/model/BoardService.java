@@ -26,8 +26,8 @@ public class BoardService {
 		return boardDao.detailBoard(boardNo);
 	}
 	
-	public int boardWrite(Board board) {
-		return boardDao.boardWrite(board);
+	public int writeBoard(Board board) {
+		return boardDao.writeBoard(board);
 	}
 	
 	public void deleteBoard(int boardNo) {

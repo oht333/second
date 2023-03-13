@@ -16,7 +16,7 @@ public interface BoardMapper {
 	
 	public Board detailBoard(int boardNo);
 	
-	public int boardWrite(Board board);
+	public int writeBoard(Board board);
 	
 	public void deleteBoard(int boardNo);
 

@@ -33,7 +33,7 @@
 	</select>
 	
 <!-- 게시글 작성 -->
-	<insert id="boardWrite" parameterType="board">
+	<insert id="writeBoard" parameterType="board">
 			insert 
 				into board(
 							title

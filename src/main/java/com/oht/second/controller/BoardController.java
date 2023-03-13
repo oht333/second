@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -98,7 +95,7 @@ public class BoardController {
 	
 	@Transactional
 	@PostMapping("/board/write")
-	public String boardWrite(@AuthenticationPrincipal Member member, 
+	public String writeBoard(@AuthenticationPrincipal Member member, 
 								@RequestParam(value="file") MultipartFile file, 
 								Model model, Board board) throws IOException {
 
@@ -106,9 +103,9 @@ public class BoardController {
 
 		int result = 0;
 		
-		if(!file.isEmpty()) {
-			
-		result = boardService.boardWrite(board);
+		if(!file.isEmpty()) {	
+		
+		result = boardService.writeBoard(board);
 		
 		int boardNo = boardMapper.selectLastInsertId();
 		board.setBoardNo(boardNo);
@@ -117,7 +114,7 @@ public class BoardController {
 		int attachResult = boardService.insertAttach(attach);
 		
 		} else {
-			result = boardService.boardWrite(board);			
+			result = boardService.writeBoard(board);			
 		}
 		
 		model.addAttribute("message", "글 작성이 완료되었습니다.");
@@ -143,7 +140,7 @@ public class BoardController {
 
 		model.addAttribute("detailBoard", detailBoard);
 		 
-		return "/boardEdit"; 
+		return "/board/update"; 
 	}		
 	
 	@PostMapping("/board/update") 
@@ -166,49 +163,52 @@ public class BoardController {
 		
 		Attach attach = new Attach();
 		
-		String realFolder = "c:/study/upload/";
+		String realFolder = "src/main/resources/static/uploads";
 		
 		String originalName = multipartFile.getOriginalFilename();
 		// 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
-		// 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로
-		
 		String extension = originalName.substring(originalName.lastIndexOf(".")+1); //확장자만 출력(.png)
 		
-		String saveName = originalName + "." + extension;
-		
-//		String saveFilename = genId + "." + extension;
+		String saveName = UUID.randomUUID().toString() + "." + extension;	
 		
 		attach.setOriginalName(originalName);
-		attach.setSaveName(saveName);
 		attach.setBoardNo(board.getBoardNo());
+		attach.setSaveName(saveName);
 		
-//		String savePath = realFolder + originalName;
+		//파일경로 (toAbsolutePath : 상대 경로를 절대 경로로 변환한다)
+		Path uploadPath = Paths.get("c:/study/upload/").toAbsolutePath().normalize();
 		
-		multipartFile.transferTo(new File(realFolder + "/" + saveName));
-	
+		//(resolve : 두경로를 조합할때 사용한다)
+		Path targetLocation = uploadPath.resolve(attach.getSaveName());
+		//파일경로 + 파일명
+		
+		attach.setPath(uploadPath.toString());
+		
+		multipartFile.transferTo(targetLocation.toFile());
+		//multipartfile을 이용해 파일을 전송하고, transferto를 이용해 저장을 할 수 있습니다.
 		
 		return attach;
 	}
+
 	
 	@GetMapping("/attach/download/{fileNo}")
 	public ResponseEntity<Object> downloadAttach(@PathVariable("fileNo") int fileNo){
 		Attach attach = boardService.selectAttach(fileNo);
 		
-		String path = "c:/study/upload/" + attach.getSaveName();
+		String path = "c:/study/upload/" + attach.getOriginalName();
 		
 		try {
 			Path filePath = Paths.get(path);
 			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-//			Resource resource = new UrlResource(file.toUri());
 
 			File file = new File(path);
 			
-			HttpHeaders headers = new HttpHeaders();	//Header라는 부분을 통해 전송을 한다
+			HttpHeaders headers = new HttpHeaders();	
 
 			
 			headers.setContentDisposition(ContentDisposition.builder("attach").filename(file.getName()).build());
 			
-			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);	//값을 돌려보낼때 쓰는것    httpstatus가 성공적으로
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}

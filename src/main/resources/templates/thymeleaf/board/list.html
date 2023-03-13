@@ -11,29 +11,28 @@
 </head>
 
 <body>	
-<div class="container">
-  <h2 class="text-success">자유 게시판</h2>  
-  <table class="table table-striped" id="boardTable">
-    <thead>
-	    <tr>
-		    <th>NO</th>
-		    <th>제목</th>
-		    <th>작성자</th>
-		    <th>작성날짜</th>
-	    </tr>
-    </thead>
-	<tbody>	
-		<tr th:each="list : ${list}">
-			<td th:text="${list.boardNo}" class="boardNo"></td>
-			<td><a th:text="${list.title}" th:href="@{/board/detail/{boardNo}(boardNo = ${list.boardNo})}"></a></td>
-<!--  			<td><a th:text="${list.title}" th:href="@{detailBoard(boardNo=${list.boardNo})}"></a></td> -->
-			<td th:text="${list.regdate}"></td>
-			<td th:text="${list.memId}"></td>
-		</tr> 
-	</tbody>
-</table>
-        <!-- 검색 -->
-</div>
+	<div class="container">
+	  <h2 class="text-success">자유 게시판</h2>  
+		<table class="table table-striped" id="boardTable">
+		    <thead>
+			    <tr>
+				    <th>NO</th>
+				    <th>제목</th>
+				    <th>작성자</th>
+				    <th>작성날짜</th>
+			    </tr>
+		    </thead>
+			<tbody>	
+				<tr th:each="list : ${list}">
+					<td th:text="${list.boardNo}" class="boardNo"></td>
+					<td><a th:text="${list.title}" th:href="@{/board/detail/{boardNo}(boardNo = ${list.boardNo})}"></a></td>
+					<td th:text="${list.memId}"></td>
+					<td th:text="${list.regdate}"></td>
+				</tr> 
+			</tbody>
+		</table>
+	</div>
+	
 	<form action="/board/list">
 		<div class="input-group mt-3 mb-3 header_searchBar justify-content-center">
 			<th:block>

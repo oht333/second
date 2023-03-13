@@ -32,8 +32,8 @@ public class BoardDAO {
 		return boardMapper.detailBoard(boardNo);
 	}
 	
-	public int boardWrite(Board board) {
-		return boardMapper.boardWrite(board);
+	public int writeBoard(Board board) {
+		return boardMapper.writeBoard(board);
 	}
 	
 	public void deleteBoard(int boardNo) {
