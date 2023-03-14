@@ -61,5 +61,10 @@ public class BoardDAO {
 		return boardMapper.selectAttach(fileNo);
 	}
 
+	public void updateView(int boardNo) {
+		boardMapper.updateView(boardNo);
+		
+	}
+
 }
 

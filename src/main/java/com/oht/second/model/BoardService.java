@@ -55,5 +55,9 @@ public class BoardService {
 	public Attach selectAttach(int fileNo) {
 		return boardDao.selectAttach(fileNo);
 	}
+
+	public void updateView(int boardNo) {
+		boardDao.updateView(boardNo);
+	}
 	
 }

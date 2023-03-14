@@ -82,6 +82,8 @@ public class BoardController {
 			attach = boardService.detailAttach(boardNo);
 		}
 		
+		boardService.updateView(boardNo);
+		
 		model.addAttribute("detailBoard", detailBoard);
 		model.addAttribute("attach", attach);
 		
@@ -167,8 +169,6 @@ public class BoardController {
 		}
 		
 		Attach attach = new Attach();
-		
-		String realFolder = "src/main/resources/static/uploads";
 		
 		String originalName = multipartFile.getOriginalFilename();
 		// 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명

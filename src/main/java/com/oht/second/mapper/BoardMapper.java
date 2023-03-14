@@ -31,5 +31,7 @@ public interface BoardMapper {
 	public Attach detailAttach(int boardNo);
 
 	public Attach selectAttach(int fileNo);
+
+	public void updateView(int boardNo);
 	
 }

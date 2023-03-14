@@ -120,4 +120,10 @@
 			where fileNo = #{fileNo}		
 	</select>
 
+	<update id="updateView" parameterType="int">
+		update board
+			set viewCount = viewCount + 1
+			where boardNo = #{boardNo}
+	</update>
+	
 </mapper>
