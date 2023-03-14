@@ -20,6 +20,7 @@
 				    <th>제목</th>
 				    <th>작성자</th>
 				    <th>작성날짜</th>
+				    <th>조회수</th>
 			    </tr>
 		    </thead>
 			<tbody>	
@@ -28,6 +29,7 @@
 					<td><a th:text="${list.title}" th:href="@{/board/detail/{boardNo}(boardNo = ${list.boardNo})}"></a></td>
 					<td th:text="${list.memId}"></td>
 					<td th:text="${list.regdate}"></td>
+					<td th:text="${list.viewCount}"></td>				
 				</tr> 
 			</tbody>
 		</table>

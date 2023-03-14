@@ -32,6 +32,10 @@
                 <td class="b_title">작성일자</td>
                 <td><input type="text" class="b_context" th:value="*{regdate}" readonly></td>
             </tr>
+		    <tr>
+		        <td class="b_title">조회수</td>
+		        <td><input type="text" class="b_context" th:value="*{viewCount}" readonly></td>
+		    </tr>
             <tr>
                 <td class="b_title">내 용</td>
                 <td><textarea class="b_context" name="" id="" cols="40" rows="20" th:text="*{content}" readonly></textarea></td>
@@ -57,12 +61,6 @@
     </div>
         <div class="btn-group, text-center">
         	<th:block th:if="${#authentication.name.equals(detailBoard.memId)}">
-        		<form th:action="@{'/board/update/'+${detailBoard.boardNo}}" th:method="get">
-			        <div class="p-2"><button id="left_btn" type="submit">수정하기</button></div>
-			    </form>
-			    <form id="deleteForm" th:action="@{'/board/'+'/delete'+${detailBoard.boardNo}}" th:method="put">
-			        <div class="p-2"><button id="right_btn" type="button" onclick="deleteBtn_click()">삭제하기</button></div>
-			    </form>
 		        <button id="left_btn" class="btn btn-success">수정</button> |
 		        <button id="center_btn" class="btn btn-success">삭제</button> | 
 		    </th:block>
