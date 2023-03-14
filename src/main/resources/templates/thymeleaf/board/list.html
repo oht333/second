@@ -60,7 +60,7 @@
 	            
 	            
 	<!-- 번호 --> 	
-<!-- 			    <th:block  th:with="start = ${paging.startPage}, end = ${paging.endPage}">
+<!--  			    <th:block  th:with="start = ${paging.startPage}, end = ${paging.endPage}">
 				    <li class="page-item" 
 				    		 th:with="start = ${paging.startPage}, end = ${paging.endPage}"
 				    		th:each="pageButton : ${#numbers.sequence(start, end)}">
@@ -68,11 +68,11 @@
 				    </li>
 			    </th:block> -->
 
-	            <th:block th:each="page : ${#numbers.sequence(paging.startPage, paging.endPage)}">
+ 	            <th:block th:each="page : ${#numbers.sequence(paging.startPage, paging.endPage)}">
 	                <li class="page-item">
 	                    <a class="page-link" th:href="@{/board/list(currentPage=${page}, category=${category}, keyword=${keyword})}" th:text="${page}"></a>
 	                </li>
-	            </th:block>
+	            </th:block> 
 		    
 		    
 	<!-- 다음 --> 	

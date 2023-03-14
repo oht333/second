@@ -35,20 +35,22 @@
             <tr>
                 <td class="b_title">내 용</td>
                 <td><textarea class="b_context" name="" id="" cols="40" rows="20" th:text="*{content}" readonly></textarea></td>
-            </tr>        
-			<tr>
-			  <td class="b_title">첨부파일</td>
-			  <td id="attach-td">
-			    <input type="text" id="attach-fileNo" th:value="${attach.fileNo}">
-			  </td>
-			</tr>
-			  
+            </tr>  
+            <th:block th:if="${attach.fileNo != 0}">      
+				<tr>
+				  <td class="b_title">첨부파일</td>
+				  <td id="attach-td">
+					<a th:href="${{attach.saveName}}" th:download="${{ attach.originalName }}" th:text="${{ attach.originalName }}"></a>
+				    <input type="text" id="attach-fileNo" th:value="${attach.fileNo}" style="border: none; background: transparent;">
+				  </td>
+				</tr>
+			</th:block>
 			    
 <!-- 			<tr>
               <td id="attach-td">
                <a id="attach-a" th:text="${{ attach.originalName }}"></a>
                <input type="text" id="attach-fileNo" class="hide" th:value="${attach.fileNo}" >
-              </td>   
+              </td>
 			</tr> -->
 			
         </table>            

@@ -48,7 +48,7 @@
 							, #{content}
 							, #{memId}
 						<if test="attach != null">
-							, attach
+							, #{attach}
 						</if>							
 							);		
 	</insert> 
@@ -63,7 +63,7 @@
 	<select id="deleteBoard" parameterType="int">
 			delete 
 				from board
-			where BOARDNO = #{boardNo};
+				where BOARDNO = #{boardNo};
 	</select>
 
 	<!-- 게시글 수정 -->

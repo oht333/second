@@ -29,10 +29,14 @@
 	<insert id="enrollProcess" parameterType="com.oht.second.vo.Member">
 		insert 
 			into member(
-						MEMID, MEMPWD, MEMNAME
+						MEMID
+						, MEMPWD
+						, MEMNAME
 						)
 				values(
-						#{memId}, #{memPwd}, #{memName}
+						#{memId}
+						, #{memPwd}
+						, #{memName}
 						)			
 	
 	</insert>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import com.oht.second.vo.Member;
 import com.oht.second.vo.PageInfo;
@@ -74,9 +75,12 @@ public class BoardController {
 
 		//상세보기
 		Board detailBoard = boardService.detailBoard(boardNo);
+		
 		//파일 첨부 
 		Attach attach = new Attach();
-		attach = boardService.detailAttach(boardNo);
+		if(detailBoard.getAttach().equals("Y")) {
+			attach = boardService.detailAttach(boardNo);
+		}
 		
 		model.addAttribute("detailBoard", detailBoard);
 		model.addAttribute("attach", attach);
@@ -105,16 +109,17 @@ public class BoardController {
 		
 		if(!file.isEmpty()) {	
 		
-		result = boardService.writeBoard(board);
-		
-		int boardNo = boardMapper.selectLastInsertId();
-		board.setBoardNo(boardNo);
-		Attach attach = storeFile(file, board);
-		
-		int attachResult = boardService.insertAttach(attach);
+			board.setAttach("Y");
+			result = boardService.writeBoard(board);
+			
+			int boardNo = boardMapper.selectLastInsertId();
+			board.setBoardNo(boardNo);
+			Attach attach = storeFile(file, board);
+			
+			int attachResult = boardService.insertAttach(attach);
 		
 		} else {
-			result = boardService.writeBoard(board);			
+			result = boardService.writeBoard(board);
 		}
 		
 		model.addAttribute("message", "글 작성이 완료되었습니다.");
@@ -174,6 +179,7 @@ public class BoardController {
 		attach.setOriginalName(originalName);
 		attach.setBoardNo(board.getBoardNo());
 		attach.setSaveName(saveName);
+		log.info("saveName = " + attach.getSaveName());		
 		
 		//파일경로 (toAbsolutePath : 상대 경로를 절대 경로로 변환한다)
 		Path uploadPath = Paths.get("c:/study/upload/").toAbsolutePath().normalize();
@@ -184,6 +190,9 @@ public class BoardController {
 		
 		attach.setPath(uploadPath.toString());
 		
+		attach.setSaveName(attach.getPath() + '\\' + attach.getSaveName());
+		log.info("saveName = " + attach.getSaveName());
+		
 		multipartFile.transferTo(targetLocation.toFile());
 		//multipartfile을 이용해 파일을 전송하고, transferto를 이용해 저장을 할 수 있습니다.
 		
@@ -193,22 +202,28 @@ public class BoardController {
 	
 	@GetMapping("/attach/download/{fileNo}")
 	public ResponseEntity<Object> downloadAttach(@PathVariable("fileNo") int fileNo){
-		Attach attach = boardService.selectAttach(fileNo);
-		
-		String path = "c:/study/upload/" + attach.getOriginalName();
+		Attach attach = boardService.selectAttach(fileNo);		
 		
 		try {
-			Path filePath = Paths.get(path);
+			Path filePath = Paths.get(attach.getSaveName());
+			//c:\study\\upload\08a8bb09-5556-490c-a2c0-6711ed77ee4f.png 
+			
 			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
 
-			File file = new File(path);
+			File file = new File(attach.getSaveName());
 			
 			HttpHeaders headers = new HttpHeaders();	
 
+			//한글명의 파일을 다운로드하면 깨지기 때문에 인코딩을 거친 파일명으로 설정
+			//(URLEncoder로 작성시 띄어쓰기가 '+'로 인식함)
+			//String encodingName = String.format("%s", URLEncoder.encode(attach.getOriginalName(), "UTF-8"));
+
+			String encodingName = String.format("%s", UriUtils.encode(attach.getOriginalName(), "UTF-8"));
 			
-			headers.setContentDisposition(ContentDisposition.builder("attach").filename(file.getName()).build());
+			//Content-Disposition값 설정
+			headers.setContentDisposition(ContentDisposition.builder("attach").filename(encodingName).build());
 			
-			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK); //처리성공
 		} catch(Exception e) {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}
