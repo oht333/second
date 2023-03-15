@@ -33,5 +33,7 @@ public interface BoardMapper {
 	public Attach selectAttach(int fileNo);
 
 	public void updateView(int boardNo);
+
+	public int deleteAttachmentFileNo(Attach attach);
 	
 }

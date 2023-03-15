@@ -1,5 +1,7 @@
 package com.oht.second.vo;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,15 +10,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class Attach {
-	private int fileNo;
-	private String originalName;
-	private String saveName;
-	private String path;
-	private int boardNo;
-	private String attach;
-	private String status;
+public class ResponseDto<T> {
+    HttpStatus status;
+    T data;
 }

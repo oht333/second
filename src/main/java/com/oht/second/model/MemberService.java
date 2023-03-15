@@ -17,11 +17,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
-
 	
 	@Autowired
 	private MemberMapper memberMapper;
-
 
 	@Override
 	public UserDetails loadUserByUsername(String memId) throws UsernameNotFoundException {
@@ -30,8 +28,7 @@ public class MemberService implements UserDetailsService {
 		Member member = memberMapper.getMemberAccount(memId);
 		
 		return member;
-	}
-	
+	}	
 	
 	@Transactional
 	public int enrollProcess(Member member) {
@@ -40,8 +37,5 @@ public class MemberService implements UserDetailsService {
 		member.setRole("ROLE_USER"); //회원권한 부여
 		
 		return memberMapper.enrollProcess(member);
-	}
-	
-	
-	
+	}		
 }

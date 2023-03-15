@@ -2,29 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oht.second.mapper.MemberMapper">
-	
-	<!-- 로그인 -->
-<!-- 	<select id="loginMember" resultMap="MemberResultSet"
-		parameterType="member">
-		<![CDATA[
-			SELECT *
-			FROM
-			MEMBER
-			WHERE
-				memId = #{memId}
-			and
-				memPwd = #{memPwd}
-		]]>			
-
-	</select> -->
 
 	<select id="getMemberAccount" resultType="com.oht.second.vo.Member" parameterType="String">
 		select * 
 			from member 
 			where memId = #{memId}	
 	</select>
-
-
 	
 	<insert id="enrollProcess" parameterType="com.oht.second.vo.Member">
 		insert 
@@ -37,9 +20,7 @@
 						#{memId}
 						, #{memPwd}
 						, #{memName}
-						)			
-	
-	</insert>
-	
+						)				
+	</insert>	
 		
 </mapper>

@@ -23,12 +23,12 @@
 	<select id="boardList" resultMap="BoardResultSet">
 			select *
 				from board
-				<if test="category == 'title'">
-			    	where TITLE like '%${keyword}%'
-				</if>
-				<if test="category == 'memId'">
-			    	where MEMID = #{keyword}
-				</if>				
+			<if test="category == 'title'">
+			    where TITLE like '%${keyword}%'
+			</if>
+			<if test="category == 'memId'">
+			    where MEMID = #{keyword}
+			</if>				
 				order by boardNo desc
 	</select>
 	
@@ -59,16 +59,16 @@
 				from board
 				where BOARDNO = #{boardNo};
 	</select> 
-	
+
+<!-- 게시글 삭제 -->	
 	<select id="deleteBoard" parameterType="int">
 			delete 
 				from board
 				where BOARDNO = #{boardNo};
 	</select>
 
-	<!-- 게시글 수정 -->
+<!-- 게시글 수정 -->
 	<update id="editBoard" parameterType="board">
-
 		update board
 			set
 				TITLE = #{title}
@@ -82,10 +82,10 @@
 		select COUNT(*)
 			from board;
 		<if test="category == 'boardTitle'">
-	    	where BOARDTITLE like '%${keyword}%'
+			where BOARDTITLE like '%${keyword}%'
 		</if>
 		<if test="category == 'userId'">
-	    	where USERID = #{keyword}
+			where USERID = #{keyword}
 		</if>			
 	</select>
 
@@ -124,6 +124,15 @@
 		update board
 			set viewCount = viewCount + 1
 			where boardNo = #{boardNo}
+	</update>
+	
+		<update id="deleteAttachmentFileNo" parameterType="com.oht.second.vo.Attach">
+		update	board, attach 
+	    set 	board.attach = 'N'
+	    		, attach.status ='N' 
+	    WHERE	board.boardNo = attach.boardNo 
+	    and 	board.boardNo = #{boardNo} 
+	    and 	attach.fileNo = #{fileNo};
 	</update>
 	
 </mapper>

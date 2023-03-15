@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -13,7 +12,6 @@
   	<!-- alertify js -->
   	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-
     <title>게시판 상세보기</title>
 </head>
 <body>
@@ -48,17 +46,10 @@
 				    <input type="text" id="attach-fileNo" th:value="${attach.fileNo}" style="border: none; background: transparent;">
 				  </td>
 				</tr>
-			</th:block>
-			    
-<!-- 			<tr>
-              <td id="attach-td">
-               <a id="attach-a" th:text="${{ attach.originalName }}"></a>
-               <input type="text" id="attach-fileNo" class="hide" th:value="${attach.fileNo}" >
-              </td>
-			</tr> -->
-			
-        </table>            
+			</th:block>			
+        </table>                    
     </div>
+    
         <div class="btn-group, text-center">
         	<th:block th:if="${#authentication.name.equals(detailBoard.memId)}">
 		        <button id="left_btn" class="btn btn-success">수정</button> |
@@ -66,30 +57,30 @@
 		    </th:block>
 		        <button id="right_btn" class="btn btn-success">목록</button>
 		</div>
-
 		
-			<script th:inline="javascript">		
+ 		<script th:inline="javascript">		
 		
-
-	 		var no = /*[[${detailBoard.boardNo}]]*/ ;
-
- 		$(function(){
-			$("#left_btn").click(function(){
-				location.href = '/board/update/'+no;
-			})			
-			$("#center_btn").click(function(){
-				location.href = '/board/delete/'+no;
+		 	let no = /*[[${detailBoard.boardNo}]]*/ ;
+	
+	 		$(function(){
+	 			
+				$("#left_btn").click(function(){
+					location.href = '/board/update/'+no;
+				})			
+				$("#center_btn").click(function(){
+					location.href = '/board/'+no;
+				})
+				$("#right_btn").click(function(){
+					location.href = '/board/list';
+				})
+				$("#attach-td").click(function(){
+					console.log("작동");
+	 				location.href = '/attach/download/' +  $(this).children("#attach-fileNo").val(); 
+				})    
 			})
-			$("#right_btn").click(function(){
-				location.href = '/board/list';
-			})
-			$("#attach-td").click(function(){
-				console.log("작동");
- 				location.href = '/attach/download/' +  $(this).children("#attach-fileNo").val(); 
-			})
-		})
-	</script>
-    
+			
+		</script> 
+			
 </body>
 </html> 
 

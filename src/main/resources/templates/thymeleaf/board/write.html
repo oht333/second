@@ -18,8 +18,7 @@
 </head>
 <body>
     <div class="container" id="b_container">
-        <form action="/board/write" method="post" enctype="multipart/form-data">
-            
+        <form action="/board/write" method="post" enctype="multipart/form-data">           
             <div class="container">
                 <h1>게시글 작성</h1>
                 <br>
@@ -29,8 +28,10 @@
                       	<td><input type="text" class="b_context" name="title"></td>
                     </tr>
                     <tr>
-                      	<td class="b_title" >내 용</td>
-                      	<td><textarea class="b_context" name="content" id="content" cols="30" rows="10"></textarea></td>
+                      	<td class="b_title" >내 용<br/>
+                                <sup>(<span id="nowByte">0</span>/300Byte)</sup>
+                        </td>
+                      	<td><textarea class="b_context" name="content" id="content" cols="30" rows="10" onkeyup="fn_checkByte(this)"></textarea></td>
                     </tr>
  	                <tr>
 				    	<td class="b_title">파일첨부</td>
@@ -39,25 +40,55 @@
 				        	<button type="button" id="file_add_cancel">취소</button>
 				        </td>
 		    		</tr>                   
-                </table>
-                    
+                </table>                    
             </div>
-<!--             <div class="d-flex justify-content-center mb-3">
-                <div class="p-2" id="left_btn"><button type="submit">등록하기</button></div>
-                <div class="p-2"><button type="reset">취소하기</button></div>              
-            </div>    --> 
             
             <div class="btn-group-center text-center">
               <button type="submit" class="btn btn-success">등록</button>
-<!--               <button type="reset" class="btn btn-success">취소</button> -->
+               <button type="reset" class="btn btn-success">취소</button>
          	</div>          
             
         </form>
 
 
     </div>
- <script>
-	 $("#file_add_cancel").on("click", function(){
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+	    //textarea 바이트 수 체크하는 함수
+	    //textarea에 있는 onkeeyup : 사용자가 
+	    function fn_checkByte(obj){
+	        const maxByte = 300; //최대 100바이트
+	        const text_val = obj.value; //입력한 문자
+	        const text_len = text_val.length; //입력한 문자수
+	
+	        let totalByte=0;
+	        
+	        for(let i=0; i<text_len; i++){
+	            const each_char = text_val.charAt(i);
+	            const uni_char = escape(each_char) //유니코드 형식으로 변환
+	            console.log("each_char = " + each_char);
+	            console.log("uni_char = " + uni_char);
+	            console.log("uni_char.length = " + uni_char.length);
+	            if(uni_char.length>4){	//한글을 보통 '%u3147'이런 형식으로 나타나서 length가 대개 6이상으로 나온다
+	                totalByte += 3;
+	            }else{
+	                totalByte += 1;
+	            }
+	        }
+	        
+	        if(totalByte>maxByte){
+	            alert('최대 100글자까지만 입력가능합니다.');
+	            document.getElementById("nowByte").innerText = totalByte;
+	            document.getElementById("nowByte").style.color = "red";
+	        }else{
+	            document.getElementById("nowByte").innerText = totalByte;
+	            document.getElementById("nowByte").style.color = "green";
+	        }
+	
+	    }
+    
+    $("#file_add_cancel").on("click", function(){
 	 	$("#file_add").val("");
 	 });
  </script>           

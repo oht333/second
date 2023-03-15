@@ -40,8 +40,6 @@ public class MemberController {
 		return "/auth/signin";
 	}
 	
-
-	
 	//로그인 실패 페이지
 	@GetMapping("/auth/fail")
 	public String loginfail(Member member) {

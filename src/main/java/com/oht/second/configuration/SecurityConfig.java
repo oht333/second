@@ -56,14 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 					.failureUrl("/auth/fail") //실패하면 /auth/fail
 					.permitAll();			
 	} 
-
-	  
-//	   PasswordEncoder를 Bean으로 등록
-	  
-//	  @Bean
-//	  public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//	    return new BCryptPasswordEncoder();
-//	  }
 	
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

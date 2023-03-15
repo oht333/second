@@ -17,4 +17,5 @@ public class Board {
 	private String memId;
 	private String attach;
 	private int viewCount;
+	private String status;
 }
