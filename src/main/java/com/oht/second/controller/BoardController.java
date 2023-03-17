@@ -238,7 +238,6 @@ public class BoardController {
 	public ResponseDto<Integer> deleteAttachment(Attach attach) {
 		//ajax 이용하여 넘어왔음
 		
-		
 //		attachment 상태 N으로 변경
 		int result = boardMapper.deleteAttachmentFileNo(attach);
 		

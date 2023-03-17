@@ -111,7 +111,7 @@
 	<select id="detailAttach" resultMap="AttachResultSet">
 		select *
 			from attach
-			where BOARDNO = #{boardNo};
+			where boardNo = #{boardNo};
 	</select>
 
 	<select id="selectAttach" parameterType="int" resultMap="AttachResultSet">
@@ -124,6 +124,12 @@
 		update board
 			set viewCount = viewCount + 1
 			where boardNo = #{boardNo}
+	</update>
+
+	<update id="deleteAttachment" parameterType="int">
+	    update	attach
+	    set 	status = 'N'
+	    where	boardNo = #{boardNo}
 	</update>
 	
 		<update id="deleteAttachmentFileNo" parameterType="com.oht.second.vo.Attach">
