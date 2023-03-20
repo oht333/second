@@ -59,7 +59,7 @@ public class BoardController {
 
 		ArrayList<Board> list = boardService.boardList(paging, category, keyword);
 
-		if(category!=null && !category.equals("") && keyword!=null) {
+		if(category!=null && keyword!=null && !category.equals("")) {
 			model.addAttribute("category", category);
 			model.addAttribute("keyword", keyword);
 		}
@@ -103,22 +103,20 @@ public class BoardController {
 								Model model, Board board) throws IOException {
 
 		board.setMemId(member.getMemId());
-
-		int result = 0;
 		
 		if(!file.isEmpty()) {	
 		
 			board.setAttach("Y");
-			result = boardService.writeBoard(board);
-			
+			boardService.writeBoard(board);			
 			int boardNo = boardMapper.selectLastInsertId();
 			board.setBoardNo(boardNo);
+			
 			Attach attach = storeFile(file, board);
 			
-			int attachResult = boardService.insertAttach(attach);
-		
+			boardService.insertAttach(attach);
+
 		} else {
-			result = boardService.writeBoard(board);
+			boardService.writeBoard(board);
 		}
 		
 		model.addAttribute("message", "글 작성이 완료되었습니다.");
@@ -141,14 +139,11 @@ public class BoardController {
 	public String updateBoardPage(@PathVariable("boardNo") int boardNo, Model model) { 
 		
 		Board detailBoard = boardService.detailBoard(boardNo);
-
-		if(detailBoard.getAttach() != null && "Y".equals(detailBoard.getAttach())) {
+		
+		if(detailBoard.getAttach() != null && detailBoard.getAttach().equals("Y")) {
 			Attach attach = boardService.selectAttach(boardNo);
-			System.out.println(detailBoard);
-			System.out.println(attach);
 			model.addAttribute("attach", attach);
 		}
-		
 		model.addAttribute("detailBoard", detailBoard);
 		 
 		return "/board/update"; 
@@ -157,7 +152,7 @@ public class BoardController {
 	@PostMapping("/board/update") 
 	public String editBoard(Board board, Model model) { 
 		  
-		int res = boardService.editBoard(board);
+		boardService.editBoard(board);
 		
 		model.addAttribute("message", "글 수정 완료되었습니다.");
 		model.addAttribute("searchUrl", "/board/list");
