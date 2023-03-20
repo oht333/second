@@ -19,6 +19,17 @@ $(function(){
 			return false;
 		}
 		else if(letterExp.test($enrollMemId)){
+			$('#id-feedback').val("");
+			$.ajax({
+				url : {memId : $enrollMemId},
+				type : "post",
+				contentType : "application/x-www-form-urlencoded",
+				success : function(data){
+					if(data.data === 0){
+						
+					}
+				}
+			})
 			return true;
 		}
 	})
